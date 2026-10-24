@@ -67,7 +67,7 @@ export function createApp(s: Services) {
   });
   const auth = authMiddleware(s.auth, s.keys);
   app.get("/healthz", (c) =>
-    c.json({ status: "ok", mode: "mock", backend: "worker-ts" }),
+    c.json({ status: "ok", mode: s.mode ?? "mock", backend: "worker-ts" }),
   );
   app.route("/admin/v1", adminRoutes(s, auth.admin));
   app.route("/api/v1", fileRoutes(s.files, auth.key, auth.optionalKey));

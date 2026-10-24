@@ -42,7 +42,7 @@ export function UploadDialog({
       if (!system.data) throw new Error("正在读取上传限制，请稍后再试");
       if (file.size > system.data.max_file_bytes)
         throw new Error(
-          `当前 mock 单文件上限为 ${formatBytes(system.data.max_file_bytes)}`,
+          `当前单文件上限为 ${formatBytes(system.data.max_file_bytes)}`,
         );
       const selected = instances.data?.items.find(
         (i) => i.id === values.instance,
@@ -123,7 +123,7 @@ export function UploadDialog({
           <span>
             {file
               ? formatBytes(file.size)
-              : `Mock 模式 · 单文件上限 ${formatBytes(system.data?.max_file_bytes ?? 8388608)}`}
+              : `单文件上限 ${formatBytes(system.data?.max_file_bytes ?? 8388608)}`}
           </span>
           <input
             aria-label="选择上传文件"

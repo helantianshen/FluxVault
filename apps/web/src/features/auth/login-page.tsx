@@ -111,7 +111,7 @@ export function LoginPage() {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.24, delay: 0.14 }}
       >
-        FluxVault · 本地 Mock 版本
+        FluxVault · 管理员控制台
       </motion.footer>
     </div>
   );

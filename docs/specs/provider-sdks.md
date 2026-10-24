@@ -6,7 +6,7 @@
 
 Go 和 Worker 均通过现有 `ObjectStore` 端口实现真实 SDK 的上传、代理下载与删除行为。实现位于 `infra/providers`；模型、配置校验、实例分发、流处理及各 Provider 分文件。业务 Service、HTTP 契约和前端不引用 SDK。
 
-默认 `Mock` / `createMock` 不构造真实适配器，也不读取 Provider Secret。填入下方配置不会自行启用真实请求。`app/sdk.go` 和 `app/sdk.ts` 提供可编译的对象存储工厂及注释状态的应用组装示例；它们尚未连接真实持久化 Repository。真实启用前仍需完成 D1 接入、持久化实例及文件记录，并单独联调 Provider。不能把真实对象存储接到会在重启后丢失的 mock 元数据或演示种子上。
+默认 `Mock` / `createMock` 不构造真实适配器，也不读取 Provider Secret。填入下方配置不会自行启用真实请求。`app/sdk.go` 和 `app/sdk.ts` 提供对象存储工厂；2026-10-24 新增的显式 D1 入口将它们与持久化仓储组装，见 [D1 接入](d1.md)。真实启用前仍需填写配置、应用迁移，并单独联调 Provider。不能把真实对象存储接到会在重启后丢失的 mock 元数据或演示种子上。
 
 本轮不创建 bucket、GitHub repository/release、Telegram chat，不启动机器人轮询、不注册 webhook，不实施远程部署，也不加入 S3 直传或分片上传。
 

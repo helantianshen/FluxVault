@@ -57,7 +57,7 @@ export function InstanceForm({
         }
       }}
       title="添加存储实例"
-      description="当前使用 Mock 适配器，凭据仅保存引用名称。"
+      description="凭据仅保存引用名称，真实密钥由后端运行环境提供。"
     >
       <form
         onSubmit={form.handleSubmit((values) => {

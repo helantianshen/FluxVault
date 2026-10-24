@@ -294,7 +294,7 @@ components:
       properties:
         mode:
           type: string
-          const: mock
+          enum: [mock, d1]
         backend:
           type: string
           enum:
@@ -306,11 +306,11 @@ components:
           type: integer
           const: 8388608
         max_total_bytes:
-          type: integer
-          const: 33554432
+          type: [integer, "null"]
+          enum: [33554432, null]
+          description: mock 总量限制；d1 模式为 null，实际容量由 Provider 决定
         database:
           type: string
-          const: memory
+          enum: [memory, d1]
         real_providers:
           type: boolean
-          const: false

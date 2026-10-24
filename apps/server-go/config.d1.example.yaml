@@ -1,0 +1,16 @@
+mode: d1 # 显式启用 D1 元数据和真实 Provider；日常演示继续使用 config.example.yaml
+public_address: 127.0.0.1:18080 # Public API 监听地址，当前仅支持本机回环
+admin_address: 127.0.0.1:18081 # Admin API 独立监听地址
+allowed_origin: http://127.0.0.1:5173 # 管理台允许的浏览器来源
+admin_username: admin # 空数据库首次初始化时的管理员用户名
+admin_password: "" # 首次初始化密码，12 至 72 字节；已有管理员时不会覆盖
+jwt_secret: "" # 至少 32 字节的随机签名密钥，重启保持不变
+jwt_hours: 12 # 管理员 Token 有效小时数，范围 1 至 24
+
+d1:
+  account_id: "" # Cloudflare Account ID，32 位十六进制
+  database_id: "" # D1 Database ID，UUID
+  api_token: "" # D1 读写 API Token，仅填写到被 Git 忽略的本地副本
+
+# FLUXVAULT_ADMIN_PASSWORD、FLUXVAULT_JWT_SECRET、CLOUDFLARE_API_TOKEN 可覆盖相应配置
+# 存储实例的 S3/GitHub/Telegram Secret 仍从环境变量读取，格式见 config/provider-secrets.example.json

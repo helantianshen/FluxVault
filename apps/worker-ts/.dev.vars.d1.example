@@ -1,0 +1,7 @@
+# 复制到 .dev.vars.d1；该本地文件已被 Git 忽略
+ADMIN_PASSWORD=""
+JWT_SECRET=""
+# ADMIN_PASSWORD 为首次初始化密码，12 至 72 字节；已有管理员时不覆盖
+# JWT_SECRET 至少 32 字节，并在服务重启后保持不变
+# Worker 使用原生 DB 绑定，运行时不需要 Cloudflare API Token
+# 存储实例凭据按 secret_ref 添加 JSON 字符串，参见 config/provider-secrets.example.json

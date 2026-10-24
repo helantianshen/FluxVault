@@ -1,0 +1,24 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "fluxvault",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-12",
+  "workers_dev": false,
+  "account_id": "", // 填写 Cloudflare Account ID
+  "env": {
+    "d1": {
+      "name": "fluxvault-d1",
+      "vars": {
+        "RUNTIME_MODE": "d1",
+        "ADMIN_USERNAME": "admin", // 仅用于空管理员表初始化
+        "ALLOWED_ORIGIN": "http://127.0.0.1:5173"
+      },
+      "d1_databases": [{
+        "binding": "DB",
+        "database_name": "fluxvault-dev", // 填写实际数据库名称
+        "database_id": "", // 填写 D1 Database ID
+        "migrations_dir": "../../database/migrations"
+      }]
+    }
+  }
+}

@@ -14,7 +14,10 @@ import (
 
 // Error 提取安全领域错误并映射 HTTP 状态，未知错误统一隐藏内部详情
 func Error(c *gin.Context, err error) {
-	e := &fault.Error{Code: "internal_error", Message: "服务暂时不可用"}
+	e := &fault.Error{
+		Code:    "internal_error",
+		Message: "服务暂时不可用",
+	}
 	var known *fault.Error
 	if errors.As(err, &known) {
 		e = known
@@ -36,7 +39,10 @@ func Error(c *gin.Context, err error) {
 	if !ok {
 		status = 500
 	}
-	detail := gin.H{"code": e.Code, "message": e.Message}
+	detail := gin.H{
+		"code":    e.Code,
+		"message": e.Message,
+	}
 	if e.FileID != "" {
 		detail["file_id"] = e.FileID
 	}
@@ -46,5 +52,7 @@ func Error(c *gin.Context, err error) {
 	if status == 429 {
 		c.Header("Retry-After", "60")
 	}
-	c.AbortWithStatusJSON(status, gin.H{"error": detail})
+	c.AbortWithStatusJSON(status, gin.H{
+		"error": detail,
+	})
 }

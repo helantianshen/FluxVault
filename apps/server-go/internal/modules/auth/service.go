@@ -37,6 +37,14 @@ func NewService(username, password, secret string, ttl time.Duration) (*Service,
 	}, nil
 }
 
+// NewServiceWithHash 复用持久化摘要，不在重启时重新生成或覆盖密码
+func NewServiceWithHash(username, hash, secret string, ttl time.Duration) (*Service, error) {
+	if _, err := bcrypt.Cost([]byte(hash)); err != nil {
+		return nil, ErrCredentials
+	}
+	return &Service{username: username, hash: []byte(hash), secret: []byte(secret), ttl: ttl}, nil
+}
+
 // Login 按一分钟窗口限制尝试次数，验证密码后签发含过期时间的管理员 JWT
 func (s *Service) Login(username, password string) (string, time.Time, error) {
 	// 登录尝试计数只在锁内更新，耗时密码验证不占用该锁

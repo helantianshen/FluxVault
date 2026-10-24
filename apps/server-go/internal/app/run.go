@@ -19,10 +19,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Run 启动本地 mock 服务，任一监听失败或收到信号时关闭所有已创建资源
+// Run 启动选定模式的服务，任一监听失败或收到信号时关闭所有已创建资源
 func Run(c config.Config) error {
 	gin.SetMode(gin.ReleaseMode)
-	routes, cleanup, err := Mock(c)
+	factory := Mock
+	if c.Mode == "d1" {
+		factory = Persistent
+	}
+	routes, cleanup, err := factory(c)
 	if err != nil {
 		return err
 	}
@@ -50,7 +54,7 @@ func Run(c config.Config) error {
 	go func() {
 		errs <- servers[1].Serve(admin)
 	}()
-	slog.Info("FluxVault mock 已启动，数据在重启后丢失", "public", c.PublicAddress, "admin", c.AdminAddress)
+	slog.Info("FluxVault 已启动", "mode", c.Mode, "public", c.PublicAddress, "admin", c.AdminAddress)
 	select {
 	case <-ctx.Done():
 	case err = <-errs:

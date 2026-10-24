@@ -143,3 +143,15 @@ Web 构建仍保留原有主 chunk 约 538 kB 的体积提示，未调整阈值�
 按用户要求清理 Go/TS 单元测试、契约测试、浏览器检查、SDK/workerd/S3 联调脚本与测试产物；移除测试专用 npm 依赖及 CI 入口，保留生产源码、mock 种子、OpenAPI、迁移、原型及历史记录。删除前备份位于项目外，不入库。
 
 本轮 Go vet/build、Web 与 Worker lint/typecheck/build、根格式检查、OpenAPI lint/类型生成均通过，生成类型与清理前一致。Worker 仅 dry-run；没有测试文件，因此这些结果属于静态和构建验证，不宣称回归测试或部署验收。保留的锁文件依赖版本未升级。
+
+## 2026-10-24 D1 接入本地验证
+
+默认 mock 保留；新增 Go REST 仓储、Worker DB 绑定仓储及持久化管理员初始化。配置模板和被 Git 忽略的本机占位副本已创建，尚未填写真实凭据。
+
+- Go build / vet 通过。项目外临时 overlay 验证在 `-race` 下通过，覆盖实际本地 D1 SQL 的 CRUD、分页、跨端 JSON/时间解码、条件状态转换、撤销终态、并发实例删除与建记录的外键保护，以及 REST 错误脱敏。Go REST 被限定转发到隔离本地 workerd，未访问 Cloudflare REST。
+- Worker lint / typecheck、默认配置 dry-run build，Web lint / build，OpenAPI lint / 类型生成及 Prettier 检查通过。保留既有 Web 主 chunk 超过 500 kB 的构建提示。
+- Worker 使用项目外 Miniflare/workerd 的原生 D1 绑定，应用两份实际迁移；验证 Unicode 和字面名称搜索、空页总数、禁用实例检查、pending/ready/deleting 及撤销终态。完整停止并重新启动 workerd 后，文件仍可查询，旧管理员密码有效，新启动配置中的不同密码没有覆盖已保存摘要。
+- Go 显式 D1 组装入口使用同一临时数据库，通过管理员登录及文件/实例/密钥/系统信息接口；重建组装且清空初始化密码后仍可登录；安全 DTO 未泄露摘要和对象定位。
+- Playwright 使用隔离前端和本地 D1，实际查看桌面及 390×844 视口截图：设置页显示 D1 模式，文件页不显示 mock 清空提示；移动端无横向溢出，浏览器控制台无 error/warning。源码 UI 检测器未报告问题，但该扫描不包含渲染后的对比度规则。
+
+未新增仓库测试文件或依赖；临时验收工具位于项目外。以上不是远程 D1、真实 Provider、生产部署或远程 CI 验收，也不是完整业务回归。

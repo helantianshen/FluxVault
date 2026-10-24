@@ -11,8 +11,12 @@ export interface Bindings {
   RUNTIME_MODE: string;
   ADMIN_USERNAME: string;
   MOCK_ADMIN_PASSWORD: string;
+  ADMIN_PASSWORD?: string;
+  DB?: D1Database;
   JWT_SECRET: string;
   ALLOWED_ORIGIN: string;
+  ADMIN_HOST?: string;
+  PUBLIC_HOST?: string;
 }
 /** 校验本地凭据后组装共享仓储、业务服务和演示数据 */
 export async function createMock(env: Bindings) {

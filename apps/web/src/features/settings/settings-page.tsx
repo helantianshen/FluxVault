@@ -29,7 +29,9 @@ export function SettingsPage() {
             <div>
               <dt>当前模式</dt>
               <dd>
-                <span className="badge neutral">Mock 演示</span>
+                <span className="badge neutral">
+                  {query.data.mode === "d1" ? "D1 持久化" : "Mock 演示"}
+                </span>
               </dd>
             </div>
             <div>
@@ -44,7 +46,14 @@ export function SettingsPage() {
             <div>
               <dt>数据库</dt>
               <dd>
-                进程内模拟数据<small>尚未连接 Cloudflare D1，重启后清空</small>
+                {query.data.database === "d1"
+                  ? "Cloudflare D1"
+                  : "进程内模拟数据"}
+                <small>
+                  {query.data.database === "d1"
+                    ? "元数据已持久化，文件正文由存储实例管理"
+                    : "尚未连接 Cloudflare D1，重启后清空"}
+                </small>
               </dd>
             </div>
             <div>
@@ -54,12 +63,13 @@ export function SettingsPage() {
               </dd>
             </div>
             <div>
-              <dt>Mock 文件上限</dt>
+              <dt>文件上传上限</dt>
               <dd>
                 {formatBytes(query.data.max_file_bytes)} / 文件
                 <small>
-                  对象存储总量 {formatBytes(query.data.max_total_bytes)}
-                  ，不代表真实 Provider 限制
+                  {query.data.max_total_bytes === null
+                    ? "应用不限制总量，实际容量由存储 Provider 决定"
+                    : `对象存储总量 ${formatBytes(query.data.max_total_bytes)}，不代表真实 Provider 限制`}
                 </small>
               </dd>
             </div>

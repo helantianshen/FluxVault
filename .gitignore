@@ -20,3 +20,10 @@ coverage/
 playwright-report/
 test-results/
 apps/server-go/server
+
+# D1 本地连接与凭据，只提交 example 模板
+apps/server-go/config.d1.local.yaml
+apps/worker-ts/wrangler.d1.local.jsonc
+.dev.vars.*
+!.dev.vars.example
+!.dev.vars.d1.example

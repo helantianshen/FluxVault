@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	keyMode          = "mode"           // 运行模式，仅接受 mock
+	keyMode          = "mode"           // 运行模式，mock 为演示，d1 为持久化
 	keyPublicAddress = "public_address" // 公开 API 的回环 IP 和端口
 	keyAdminAddress  = "admin_address"  // 管理 API 的回环 IP 和独立端口
 	keyAdminUsername = "admin_username" // 管理员登录名
@@ -30,11 +30,14 @@ type Config struct {
 	JWTSecret     string
 	AllowedOrigin string
 	JWTTTL        time.Duration
+	D1AccountID   string
+	D1DatabaseID  string
+	D1APIToken    string
 }
 
-// Validate 校验 mock 模式、回环监听、凭据长度、令牌有效期及独立端口
+// Validate 校验运行模式、回环监听、凭据长度、令牌有效期及独立端口
 func (c Config) Validate() error {
-	if c.Mode != "mock" {
+	if c.Mode != "mock" && c.Mode != "d1" {
 		return ErrUnsupportedMode
 	}
 	for _, address := range []string{
@@ -47,11 +50,11 @@ func (c Config) Validate() error {
 			return ErrLoopbackAddress
 		}
 	}
-	passwordInvalid := len(c.AdminPassword) < 12 || len(c.AdminPassword) > 72
+	passwordInvalid := (c.Mode == "mock" || c.AdminPassword != "") && (len(c.AdminPassword) < 12 || len(c.AdminPassword) > 72)
 	secretInvalid := len(c.JWTSecret) < 32
 	ttlInvalid := c.JWTTTL <= 0 || c.JWTTTL > 24*time.Hour
 	addressesConflict := c.PublicAddress == c.AdminAddress
-	if passwordInvalid || secretInvalid || ttlInvalid || addressesConflict {
+	if passwordInvalid || secretInvalid || ttlInvalid || addressesConflict || c.AdminUsername == "" || len(c.AdminUsername) > 120 {
 		return ErrInvalidSettings
 	}
 	return nil
@@ -77,10 +80,24 @@ func Load(path string) (Config, error) {
 		PublicAddress: v.GetString(keyPublicAddress),
 		AdminAddress:  v.GetString(keyAdminAddress),
 		AdminUsername: v.GetString(keyAdminUsername),
-		AdminPassword: os.Getenv("FLUXVAULT_MOCK_ADMIN_PASSWORD"),
-		JWTSecret:     os.Getenv("FLUXVAULT_JWT_SECRET"),
+		AdminPassword: credential(v, "admin_password", "FLUXVAULT_ADMIN_PASSWORD"),
+		JWTSecret:     credential(v, "jwt_secret", "FLUXVAULT_JWT_SECRET"),
+		D1AccountID:   v.GetString("d1.account_id"),
+		D1DatabaseID:  v.GetString("d1.database_id"),
+		D1APIToken:    credential(v, "d1.api_token", "CLOUDFLARE_API_TOKEN"),
 		AllowedOrigin: v.GetString(keyAllowedOrigin),
 		JWTTTL:        time.Duration(v.GetInt(keyJWTHours)) * time.Hour,
 	}
+	if c.Mode == "mock" {
+		c.AdminPassword = os.Getenv("FLUXVAULT_MOCK_ADMIN_PASSWORD")
+	}
 	return c, c.Validate()
+}
+
+// 环境变量优先于本地私密配置，避免把凭据写进可提交示例
+func credential(v *viper.Viper, key, env string) string {
+	if value := os.Getenv(env); value != "" {
+		return value
+	}
+	return v.GetString(key)
 }

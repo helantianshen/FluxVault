@@ -2,7 +2,7 @@ openapi: 3.1.0
 info:
   title: FluxVault Public API
   version: 0.1.0
-  description: V1 首阶段本地 mock 契约。真实 D1 和 Provider 接入另行验收；错误消息可本地化，客户端根据 error.code
+  description: V1 API 契约，支持 mock 与 D1 模式。真实环境另行验收；错误消息可本地化，客户端根据 error.code
     判断。生产环境只部署一种后端。
   license:
     name: UNLICENSED

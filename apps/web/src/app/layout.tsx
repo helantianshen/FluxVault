@@ -1,3 +1,4 @@
+import { useSystem } from "../features/settings/queries";
 import { FocusScope } from "@radix-ui/react-focus-scope";
 import { lazy, Suspense, useState, useEffect } from "react";
 import { NavLink, useLocation, Routes, Route, Navigate } from "react-router";
@@ -44,6 +45,14 @@ const navigation = [
   { path: "/settings", title: "系统设置", icon: Settings2 },
 ];
 export function Layout() {
+  const system = useSystem();
+  const mode = system.data?.mode;
+  const environment =
+    mode === "d1"
+      ? "D1 持久化环境"
+      : mode === "mock"
+        ? "本地 Mock 环境"
+        : "正在读取环境";
   const [menu, setMenu] = useState(false);
   const narrow = useMediaQuery("(max-width: 760px)");
   useEffect(() => {
@@ -137,7 +146,14 @@ export function Layout() {
           <div className="sidebar-bottom">
             <div className="local-state">
               <span className="status-dot" />
-              本地 Mock 环境<small>数据在后端重启后清空</small>
+              {environment}
+              <small>
+                {mode === "d1"
+                  ? "元数据持久化到 Cloudflare D1"
+                  : mode === "mock"
+                    ? "数据在后端重启后清空"
+                    : "以服务返回信息为准"}
+              </small>
             </div>
             <div className="profile">
               <span className="avatar">A</span>
@@ -172,7 +188,7 @@ export function Layout() {
           </div>
           <span className="prototype-label">
             <FlaskConical />
-            Mock 环境
+            {environment}
           </span>
         </header>
         <main id="workspace" tabIndex={-1} inert={narrow && menu}>

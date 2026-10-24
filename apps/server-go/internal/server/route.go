@@ -21,6 +21,7 @@ type Handlers struct {
 	Files     *file.Handler
 	Instances *storage.Handler
 	Keys      *identity.Handler
+	Mode      string
 }
 
 // Routes 保存独立的管理员和公开 API，避免两种认证链交叉注册
@@ -29,7 +30,7 @@ type Routes struct{ Public, Admin http.Handler }
 // NewRoutes 一次构造两套监听入口，认证顺序在路由组处明确
 func NewRoutes(h Handlers, authentication *middleware.Auth, allowedOrigin string) Routes {
 	public := router(allowedOrigin)
-	public.GET("/healthz", health)
+	public.GET("/healthz", health(h.Mode))
 	api := public.Group("/api/v1")
 	api.GET("/files/:id/content", authentication.OptionalKey, h.Files.Download)
 	api.Use(authentication.Key)
@@ -39,10 +40,10 @@ func NewRoutes(h Handlers, authentication *middleware.Auth, allowedOrigin string
 	api.DELETE("/files/:id", h.Files.Delete)
 
 	admin := router(allowedOrigin)
-	admin.GET("/healthz", health)
+	admin.GET("/healthz", health(h.Mode))
 	admin.POST("/admin/v1/auth/login", h.Auth.Login)
 	management := admin.Group("/admin/v1", authentication.Admin)
-	management.GET("/system", system)
+	management.GET("/system", system(h.Mode))
 	fileRoutes(management, h.Files)
 	management.GET("/instances", h.Instances.List)
 	management.POST("/instances", h.Instances.Create)

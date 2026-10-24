@@ -79,7 +79,7 @@ export interface paths {
         put?: never;
         /**
          * 管理员登录
-         * @description 本地 mock 的管理员在进程启动时由显式环境配置初始化，无公开注册或初始化端点。共享的进程级保护最多每分钟 10 次登录尝试，不是生产分布式限流。Token 仅保存在前端内存，退出或刷新清除本地 Token
+         * @description mock 管理员在进程启动时由环境配置初始化；D1 管理员仅在空表中首次初始化，之后复用已保存的摘要，无公开注册或初始化端点。共享的进程级保护最多每分钟 10 次登录尝试，不是生产分布式限流。Token 仅保存在前端内存，退出或刷新清除本地 Token
          */
         post: operations["adminLogin"];
         delete?: never;
@@ -255,19 +255,21 @@ export interface components {
             expires_at: string;
         };
         System: {
-            /** @constant */
-            mode: "mock";
+            /** @enum {string} */
+            mode: "mock" | "d1";
             /** @enum {string} */
             backend: "go" | "worker-ts";
             version: string;
             /** @constant */
             max_file_bytes: 8388608;
-            /** @constant */
-            max_total_bytes: 33554432;
-            /** @constant */
-            database: "memory";
-            /** @constant */
-            real_providers: false;
+            /**
+             * @description mock 总量限制；d1 模式为 null，实际容量由 Provider 决定
+             * @enum {integer|null}
+             */
+            max_total_bytes: 33554432 | null;
+            /** @enum {string} */
+            database: "memory" | "d1";
+            real_providers: boolean;
         };
         Instance: {
             id: string;

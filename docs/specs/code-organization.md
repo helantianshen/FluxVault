@@ -43,7 +43,7 @@ apps/server-go/
 
 文件 Service 只持有自身 Repository、正文 ObjectStore 和实例服务的最小消费接口。`storage.Service` 为新上传校验实例启用状态和 private 能力，已有文件的下载/删除仍可读取停用实例。跨模块不传递任意写仓储能力。
 
-当前唯一元数据实现是内存存储。`infra/memory` 的私有实现通过构造返回各模块 Repository 接口，三者共享同一份存储和锁：创建文件时复查实例能力，删除实例时检查文件引用，检查和修改在同一个临界区完成。这里保留集中实现以避免模块间的 import 环和引用竞态，不为每个模块增加空转发构造函数。
+默认 mock 元数据使用内存；显式 D1 模式使用 `infra/d1` 仓储（Go REST / Worker 原生绑定），以条件 SQL 和外键保证状态及引用约束。`infra/memory` 的私有实现通过构造返回各模块 Repository 接口，三者共享同一份存储和锁：创建文件时复查实例能力，删除实例时检查文件引用，检查和修改在同一个临界区完成。这里保留集中实现以避免模块间的 import 环和引用竞态，不为每个模块增加空转发构造函数。
 
 `app` 负责组装 Repository、对象存储、各 Service/Handler 和认证链，创建种子，并管理监听器、服务退出和临时文件释放。`server/route.go` 统一绑定 Public/Admin 路径及认证顺序。业务模块不反向依赖 app/server，也不直接引用 SDK。
 
@@ -53,7 +53,7 @@ apps/server-go/
 apps/worker-ts/
   src/
     index.ts                 Worker fetch 入口与运行实例缓存
-    app/                     bindings、mock 组装、种子和停用的 SDK 启用示例
+    app/                     bindings、mock / D1 组装、种子和 SDK 工厂
     server/                  Hono 根应用、两组 API 挂载与服务集合
     httpx/                   HTTPEnv、JSON/查询解析和共享基础校验
     modules/
@@ -81,6 +81,6 @@ Worker 保留 Hono、Zod 和 Web API 的惯用方式，模块按职责分文件�
 
 现有 OpenAPI 优先于全局默认响应外壳：成功返回契约 JSON，失败返回字符串 `error.code`、安全 `message` 及可选 `file_id`；下载保留流，204 不写正文。`fault` 继续保存既有安全协议详情，Go 使用 `errors.Is/As` 分类。本轮不更换错误体系或改业务码。
 
-Public/Admin 路径、认证隔离、JWT 策略、8 MiB 代理上传限制、pending/ready/deleting 恢复语义、Secret 引用与 SDK 目标绑定保持原契约。默认运行 mock，真实 SDK 保持可编译但不自动启用；没有 D1 实现、依赖升级或部署。
+Public/Admin 路径、认证隔离、JWT 策略、8 MiB 代理上传限制、pending/ready/deleting 恢复语义、Secret 引用与 SDK 目标绑定保持原契约。默认运行 mock，真实 SDK 保持可编译但不自动启用；D1 接入见 [专项说明](d1.md)，本轮无依赖升级或部署。
 
 实际验证见 [验证记录](verification.md)，本轮任务与备份信息见 [任务文件](../../.agent/tasks/2026-10-22-reorganization.md)。

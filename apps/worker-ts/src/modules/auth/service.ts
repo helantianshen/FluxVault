@@ -1,4 +1,4 @@
-import { compare, hash } from "bcryptjs";
+import { compare, hash, getRounds } from "bcryptjs";
 import { SignJWT, jwtVerify } from "jose";
 import { Fault } from "../../fault";
 import type { AdminAuthenticator } from "./model";
@@ -15,6 +15,21 @@ export class AdminAuth implements AdminAuthenticator {
     return new AdminAuth(
       username,
       await hash(password, 12),
+      new TextEncoder().encode(secret),
+    );
+  }
+  /** 复用数据库中的 bcrypt 摘要，环境密码只用于首次初始化 */
+  static fromHash(username: string, passwordHash: string, secret: string) {
+    const rounds = getRounds(passwordHash);
+    if (
+      !/^\$2[aby]\$\d{2}\$[./A-Za-z0-9]{53}$/.test(passwordHash) ||
+      rounds < 4 ||
+      rounds > 16
+    )
+      throw new Error("invalid administrator hash");
+    return new AdminAuth(
+      username,
+      passwordHash,
       new TextEncoder().encode(secret),
     );
   }

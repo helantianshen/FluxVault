@@ -1,3 +1,4 @@
+import { useSystem } from "../settings/queries";
 import { useState, useDeferredValue, useEffect, useRef } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import {
@@ -26,6 +27,7 @@ import { UploadDialog } from "./upload-dialog";
 import { errorMessage, formatBytes, formatTime } from "../../lib/utils";
 import type { VaultFile } from "../../api/types";
 export function FilesPage() {
+  const system = useSystem();
   const [search, setSearch] = useState("");
   const query = useDeferredValue(search);
   const [state, setState] = useState("");
@@ -104,7 +106,7 @@ export function FilesPage() {
           上传文件
         </Button>
       </div>
-      {!noticeHidden && (
+      {system.data?.mode === "mock" && !noticeHidden && (
         <div className="demo-notice">
           <Info />
           <span>当前使用 Mock 存储。文件和记录会在后端重启后清空。</span>

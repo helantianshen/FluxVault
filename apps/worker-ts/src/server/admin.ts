@@ -10,16 +10,16 @@ export function adminRoutes(s: Services, auth: MiddlewareHandler<HTTPEnv>) {
   const app = new Hono<HTTPEnv>();
   app.route("/auth", authRoutes(s.auth));
   app.route("/", fileRoutes(s.files, auth, auth));
-  // 管理员认证后返回当前 mock 模式与容量限制
+  // 管理员认证后返回实际运行模式，null 表示应用不限制存储总量
   app.get("/system", auth, (c) =>
     c.json({
-      mode: "mock",
+      mode: s.mode ?? "mock",
       backend: "worker-ts",
       version: "0.1.0",
       max_file_bytes: 8388608,
-      max_total_bytes: 33554432,
-      database: "memory",
-      real_providers: false,
+      max_total_bytes: s.mode === "d1" ? null : 33554432,
+      database: s.mode === "d1" ? "d1" : "memory",
+      real_providers: s.mode === "d1",
     }),
   );
   app.route("/instances", instancesRoutes(s.instances, auth));

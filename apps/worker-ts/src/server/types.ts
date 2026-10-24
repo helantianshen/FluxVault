@@ -8,4 +8,5 @@ export interface Services {
   keys: Keys;
   auth: AdminAuthenticator;
   allowedOrigin: string;
+  mode?: "mock" | "d1";
 }
