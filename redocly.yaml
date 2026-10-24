@@ -1,0 +1,8 @@
+extends:
+  - recommended
+rules:
+  operation-4xx-response: off
+  operation-operationId-unique: error
+  no-unused-components: off
+  info-license-strict: off
+  no-server-example.com: off

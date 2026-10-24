@@ -1,0 +1,383 @@
+openapi: 3.1.0
+info:
+  title: FluxVault Admin API
+  version: 0.1.0
+  description: V1 首阶段本地 mock 契约。真实 D1 和 Provider 接入另行验收；错误消息可本地化，客户端根据 error.code
+    判断。生产环境只部署一种后端。
+  license:
+    name: UNLICENSED
+servers:
+  - url: http://127.0.0.1:18081
+    description: Go 本地 mock
+  - url: http://127.0.0.1:8787
+    description: Worker 本地 mock；Public/Admin 通过独立路径隔离
+security:
+  - AdminJWT: []
+paths:
+  /admin/v1/files:
+    get:
+      operationId: adminListFiles
+      summary: 分页列出文件
+      responses:
+        "200":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: ./common.schemas.yaml#/components/schemas/FilePage
+        default:
+          $ref: "#/components/responses/Error"
+      description: 管理员可以列出所有文件。按创建时间倒序，同时间按 ID 倒序。参数不能重复或使用未声明字段。
+      parameters:
+        - name: q
+          in: query
+          required: false
+          description: 文件名包含搜索，最多 50 UTF-8 字节。
+          schema:
+            type: string
+            maxLength: 50
+        - name: state
+          in: query
+          required: false
+          description: state
+          schema:
+            type: string
+            enum:
+              - pending
+              - ready
+              - deleting
+        - name: visibility
+          in: query
+          required: false
+          description: visibility
+          schema:
+            type: string
+            enum: &a1
+              - private
+              - public
+        - name: instance_id
+          in: query
+          required: false
+          description: instance_id
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          description: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 50
+        - name: offset
+          in: query
+          required: false
+          description: offset
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 100000
+            default: 0
+    post:
+      operationId: adminUploadFile
+      summary: 代理上传文件
+      responses:
+        "201":
+          description: 内容与元数据均已就绪
+          content:
+            application/json:
+              schema:
+                $ref: ./common.schemas.yaml#/components/schemas/File
+        default:
+          $ref: "#/components/responses/Error"
+      description: 请求体为文件原始字节，Content-Type 表示媒体类型。先建立 pending，上传成功后 ready。失败返回
+        error.file_id 供管理员排查。此阶段 mock 单文件最多 8 MiB，总量 32 MiB；不表示生产全局限制。private
+        为默认值；不支持私有的实例拒绝 private。Public 入口需要 upload scope。
+      parameters:
+        - name: name
+          in: query
+          required: true
+          description: 文件名
+          schema:
+            type: string
+            minLength: 1
+            description: UTF-8 最多 255 字节，不含路径分隔符或控制字符。
+        - name: instance_id
+          in: query
+          required: true
+          description: 目标存储实例
+          schema:
+            type: string
+        - name: visibility
+          in: query
+          required: false
+          description: visibility
+          schema:
+            type: string
+            enum: *a1
+            default: private
+      requestBody:
+        required: true
+        content:
+          "*/*":
+            schema:
+              type: string
+              format: binary
+  /admin/v1/files/{id}:
+    get:
+      operationId: adminGetFile
+      summary: 读取文件记录
+      responses:
+        "200":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: ./common.schemas.yaml#/components/schemas/File
+        default:
+          $ref: "#/components/responses/Error"
+      parameters:
+        - &a2
+          name: id
+          in: path
+          required: true
+          description: 稳定资源 ID。
+          schema:
+            type: string
+      description: 可查看 pending、ready、deleting 和安全错误代码。
+    delete:
+      operationId: adminDeleteFile
+      summary: 删除文件或重试删除
+      responses:
+        "204":
+          description: 删除完成，无响应体
+        default:
+          $ref: "#/components/responses/Error"
+      parameters:
+        - *a2
+      description: Public 需要 delete scope 且拥有该文件。pending 不允许删除，须人工排查。先进入
+        deleting，Telegram 只移除元数据，其他实例先删除远端再清理元数据。失败保留 deleting 与定位信息，可重复 DELETE
+        重试。
+  /admin/v1/files/{id}/content:
+    get:
+      operationId: adminDownloadFile
+      summary: 下载文件内容
+      responses:
+        "200":
+          description: 流式文件内容，Content-Disposition 为 attachment。
+          content:
+            "*/*":
+              schema:
+                type: string
+                format: binary
+          headers:
+            Content-Disposition:
+              description: 浏览器以附件处理，文件名经过编码。
+              schema:
+                type: string
+            Cache-Control:
+              schema:
+                type: string
+                const: no-store
+        default:
+          $ref: "#/components/responses/Error"
+      parameters:
+        - *a2
+        - name: mode
+          in: query
+          required: false
+          description: mode
+          schema:
+            type: string
+            enum:
+              - auto
+              - proxy
+              - direct
+            default: auto
+      description: 只有 ready 可下载。public 可匿名下载；private 需要所属 Key 的 read scope 或 Admin
+        入口的管理员 JWT。无权访问 private 返回 404。有 Authorization 时无效令牌仍返回 401。mock 的 auto
+        使用 proxy，direct 明确返回 422；不签发虚假预签名 URL。响应不缓存，不支持 Range 或断点续传。
+  /admin/v1/auth/login:
+    post:
+      operationId: adminLogin
+      summary: 管理员登录
+      responses:
+        "200":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: ./common.schemas.yaml#/components/schemas/LoginResult
+        default:
+          $ref: "#/components/responses/Error"
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ./common.schemas.yaml#/components/schemas/LoginInput
+      description: 本地 mock 的管理员在进程启动时由显式环境配置初始化，无公开注册或初始化端点。共享的进程级保护最多每分钟 10
+        次登录尝试，不是生产分布式限流。Token 仅保存在前端内存，退出或刷新清除本地 Token。
+  /admin/v1/system:
+    get:
+      operationId: adminGetSystem
+      summary: 查看运行环境
+      responses:
+        "200":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: ./common.schemas.yaml#/components/schemas/System
+        default:
+          $ref: "#/components/responses/Error"
+  /admin/v1/instances:
+    get:
+      operationId: adminListInstances
+      summary: 列出存储实例
+      responses:
+        "200":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: ./common.schemas.yaml#/components/schemas/InstanceList
+        default:
+          $ref: "#/components/responses/Error"
+    post:
+      operationId: adminCreateInstance
+      summary: 添加存储实例
+      responses:
+        "201":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: ./common.schemas.yaml#/components/schemas/Instance
+        default:
+          $ref: "#/components/responses/Error"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ./common.schemas.yaml#/components/schemas/CreateInstance
+  /admin/v1/instances/{id}:
+    patch:
+      operationId: adminUpdateInstance
+      summary: 修改实例名称或启用状态
+      responses:
+        "200":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: ./common.schemas.yaml#/components/schemas/Instance
+        default:
+          $ref: "#/components/responses/Error"
+      parameters:
+        - *a2
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ./common.schemas.yaml#/components/schemas/UpdateInstance
+      description: 禁用只拒绝新上传；已存在文件仍可读取与删除。Provider 与私有访问能力不可修改，避免已有文件发生可见性变化。
+    delete:
+      operationId: adminDeleteInstance
+      summary: 删除没有关联文件的实例
+      responses:
+        "204":
+          description: 已删除
+        default:
+          $ref: "#/components/responses/Error"
+      parameters:
+        - *a2
+      description: 被任意状态文件引用时返回 409。
+  /admin/v1/keys:
+    get:
+      operationId: adminListKeys
+      summary: 列出 API Key 安全信息
+      responses:
+        "200":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: ./common.schemas.yaml#/components/schemas/KeyList
+        default:
+          $ref: "#/components/responses/Error"
+    post:
+      operationId: adminCreateKey
+      summary: 创建 API Key
+      responses:
+        "201":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: ./common.schemas.yaml#/components/schemas/KeySecret
+        default:
+          $ref: "#/components/responses/Error"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ./common.schemas.yaml#/components/schemas/CreateKey
+  /admin/v1/keys/{id}:
+    patch:
+      operationId: adminSetKeyStatus
+      summary: 启用、禁用或永久撤销密钥
+      responses:
+        "200":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: ./common.schemas.yaml#/components/schemas/APIKey
+        default:
+          $ref: "#/components/responses/Error"
+      parameters:
+        - *a2
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ./common.schemas.yaml#/components/schemas/UpdateKey
+      description: revoked 为永久终态；不删除 Key ID 及其文件归属。disabled 可恢复。变更在后续请求认证时生效。
+  /admin/v1/keys/{id}/rotate:
+    post:
+      operationId: adminRotateKey
+      summary: 轮换 API Key
+      responses:
+        "200":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: ./common.schemas.yaml#/components/schemas/KeySecret
+        default:
+          $ref: "#/components/responses/Error"
+      parameters:
+        - *a2
+      description: 保持 Key ID 与状态，立即替换密钥哈希；旧密钥失效，不提供过渡期。已撤销的 Key 不允许轮换。
+components:
+  securitySchemes:
+    AdminJWT:
+      type: http
+      scheme: bearer
+      description: 管理员短期 JWT；默认 12 小时，无 refresh token 或黑名单。
+      bearerFormat: JWT
+  responses:
+    Error:
+      description: 请求失败。error.code 是稳定机器代码，error.message 是可本地化说明。上传或删除失败时可包含 file_id
+        供排查。状态码包括 400、401、403、404、409、413、422、429、500、502、503，具体语义见操作说明。
+      content:
+        application/json:
+          schema:
+            $ref: ./common.schemas.yaml#/components/schemas/Error

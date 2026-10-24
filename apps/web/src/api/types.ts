@@ -1,0 +1,10 @@
+import type { components } from "./schema";
+export type VaultFile = components["schemas"]["File"];
+export type Instance = components["schemas"]["Instance"];
+export type APIKey = components["schemas"]["APIKey"];
+export type FilePage = components["schemas"]["FilePage"];
+export type KeySecret = components["schemas"]["KeySecret"];
+export type SystemInfo = components["schemas"]["System"];
+export type LoginResult = components["schemas"]["LoginResult"];
+export type CreateInstance = components["schemas"]["CreateInstance"];
+export type CreateKey = components["schemas"]["CreateKey"];

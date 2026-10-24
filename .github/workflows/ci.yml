@@ -1,0 +1,45 @@
+name: Verify
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  native:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/server-go
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: apps/server-go/go.mod
+          cache-dependency-path: apps/server-go/go.sum
+      - run: test -z "$(gofmt -l .)"
+      - run: go vet ./...
+      - run: go build ./cmd/server
+  typescript-and-contracts:
+    runs-on: ubuntu-latest
+    env:
+      WRANGLER_SEND_METRICS: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            apps/web/package-lock.json
+            apps/worker-ts/package-lock.json
+      - run: npm ci
+      - run: npm ci --prefix apps/web
+      - run: npm ci --prefix apps/worker-ts
+      - run: npm run format:check
+      - run: npm run contracts:lint
+      - run: npm run contracts:types && git diff --exit-code -- apps/web/src/api/schema.d.ts
+      - run: npm --prefix apps/worker-ts run lint && npm --prefix apps/worker-ts run typecheck && npm --prefix apps/worker-ts run build
+      - run: npm --prefix apps/web run lint && npm --prefix apps/web run build
+        env:
+          VITE_ADMIN_API_URL: http://127.0.0.1:18081

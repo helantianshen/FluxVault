@@ -1,0 +1,765 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-17T19:54:24.108Z",
+  "title": "Design System: FluxVault",
+  "extensions": {
+    "colorMeta": {
+      "accent": {
+        "role": "primary",
+        "displayName": "动作蓝",
+        "tonalRamp": [
+          "oklch(15.00% 0.18284 261.53)",
+          "oklch(26.43% 0.18284 261.53)",
+          "oklch(37.86% 0.18284 261.53)",
+          "oklch(49.29% 0.18284 261.53)",
+          "oklch(60.71% 0.18284 261.53)",
+          "oklch(72.14% 0.18284 261.53)",
+          "oklch(83.57% 0.18284 261.53)",
+          "oklch(95.00% 0.18284 261.53)"
+        ]
+      },
+      "accent-hover": {
+        "role": "primary",
+        "displayName": "动作蓝悬停",
+        "tonalRamp": [
+          "oklch(15.00% 0.16686 261.84)",
+          "oklch(26.43% 0.16686 261.84)",
+          "oklch(37.86% 0.16686 261.84)",
+          "oklch(49.29% 0.16686 261.84)",
+          "oklch(60.71% 0.16686 261.84)",
+          "oklch(72.14% 0.16686 261.84)",
+          "oklch(83.57% 0.16686 261.84)",
+          "oklch(95.00% 0.16686 261.84)"
+        ]
+      },
+      "canvas": {
+        "role": "neutral",
+        "displayName": "冷白画布",
+        "tonalRamp": [
+          "oklch(15.00% 0.00453 258.32)",
+          "oklch(26.43% 0.00453 258.32)",
+          "oklch(37.86% 0.00453 258.32)",
+          "oklch(49.29% 0.00453 258.32)",
+          "oklch(60.71% 0.00453 258.32)",
+          "oklch(72.14% 0.00453 258.32)",
+          "oklch(83.57% 0.00453 258.32)",
+          "oklch(95.00% 0.00453 258.32)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "白色工作面",
+        "tonalRamp": [
+          "oklch(15.00% 0.00000 0.00)",
+          "oklch(26.43% 0.00000 0.00)",
+          "oklch(37.86% 0.00000 0.00)",
+          "oklch(49.29% 0.00000 0.00)",
+          "oklch(60.71% 0.00000 0.00)",
+          "oklch(72.14% 0.00000 0.00)",
+          "oklch(83.57% 0.00000 0.00)",
+          "oklch(95.00% 0.00000 0.00)"
+        ]
+      },
+      "sidebar": {
+        "role": "neutral",
+        "displayName": "蓝灰导航底",
+        "tonalRamp": [
+          "oklch(15.00% 0.00967 252.81)",
+          "oklch(26.43% 0.00967 252.81)",
+          "oklch(37.86% 0.00967 252.81)",
+          "oklch(49.29% 0.00967 252.81)",
+          "oklch(60.71% 0.00967 252.81)",
+          "oklch(72.14% 0.00967 252.81)",
+          "oklch(83.57% 0.00967 252.81)",
+          "oklch(95.00% 0.00967 252.81)"
+        ]
+      },
+      "detail": {
+        "role": "neutral",
+        "displayName": "详情浅底",
+        "tonalRamp": [
+          "oklch(15.00% 0.00285 264.54)",
+          "oklch(26.43% 0.00285 264.54)",
+          "oklch(37.86% 0.00285 264.54)",
+          "oklch(49.29% 0.00285 264.54)",
+          "oklch(60.71% 0.00285 264.54)",
+          "oklch(72.14% 0.00285 264.54)",
+          "oklch(83.57% 0.00285 264.54)",
+          "oklch(95.00% 0.00285 264.54)"
+        ]
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "正文深蓝灰",
+        "tonalRamp": [
+          "oklch(15.00% 0.04615 258.72)",
+          "oklch(26.43% 0.04615 258.72)",
+          "oklch(37.86% 0.04615 258.72)",
+          "oklch(49.29% 0.04615 258.72)",
+          "oklch(60.71% 0.04615 258.72)",
+          "oklch(72.14% 0.04615 258.72)",
+          "oklch(83.57% 0.04615 258.72)",
+          "oklch(95.00% 0.04615 258.72)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "次级蓝灰文字",
+        "tonalRamp": [
+          "oklch(15.00% 0.04131 257.42)",
+          "oklch(26.43% 0.04131 257.42)",
+          "oklch(37.86% 0.04131 257.42)",
+          "oklch(49.29% 0.04131 257.42)",
+          "oklch(60.71% 0.04131 257.42)",
+          "oklch(72.14% 0.04131 257.42)",
+          "oklch(83.57% 0.04131 257.42)",
+          "oklch(95.00% 0.04131 257.42)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "内容细分隔线",
+        "tonalRamp": [
+          "oklch(15.00% 0.01262 255.51)",
+          "oklch(26.43% 0.01262 255.51)",
+          "oklch(37.86% 0.01262 255.51)",
+          "oklch(49.29% 0.01262 255.51)",
+          "oklch(60.71% 0.01262 255.51)",
+          "oklch(72.14% 0.01262 255.51)",
+          "oklch(83.57% 0.01262 255.51)",
+          "oklch(95.00% 0.01262 255.51)"
+        ]
+      },
+      "control-line": {
+        "role": "neutral",
+        "displayName": "控件边界",
+        "tonalRamp": [
+          "oklch(15.00% 0.01679 259.42)",
+          "oklch(26.43% 0.01679 259.42)",
+          "oklch(37.86% 0.01679 259.42)",
+          "oklch(49.29% 0.01679 259.42)",
+          "oklch(60.71% 0.01679 259.42)",
+          "oklch(72.14% 0.01679 259.42)",
+          "oklch(83.57% 0.01679 259.42)",
+          "oklch(95.00% 0.01679 259.42)"
+        ]
+      },
+      "row-hover": {
+        "role": "neutral",
+        "displayName": "文件行悬停",
+        "tonalRamp": [
+          "oklch(15.00% 0.00697 268.55)",
+          "oklch(26.43% 0.00697 268.55)",
+          "oklch(37.86% 0.00697 268.55)",
+          "oklch(49.29% 0.00697 268.55)",
+          "oklch(60.71% 0.00697 268.55)",
+          "oklch(72.14% 0.00697 268.55)",
+          "oklch(83.57% 0.00697 268.55)",
+          "oklch(95.00% 0.00697 268.55)"
+        ]
+      },
+      "row-selected": {
+        "role": "neutral",
+        "displayName": "文件行选中",
+        "tonalRamp": [
+          "oklch(15.00% 0.01197 259.82)",
+          "oklch(26.43% 0.01197 259.82)",
+          "oklch(37.86% 0.01197 259.82)",
+          "oklch(49.29% 0.01197 259.82)",
+          "oklch(60.71% 0.01197 259.82)",
+          "oklch(72.14% 0.01197 259.82)",
+          "oklch(83.57% 0.01197 259.82)",
+          "oklch(95.00% 0.01197 259.82)"
+        ]
+      },
+      "nav-text": {
+        "role": "neutral",
+        "displayName": "导航文字",
+        "tonalRamp": [
+          "oklch(15.00% 0.04483 259.21)",
+          "oklch(26.43% 0.04483 259.21)",
+          "oklch(37.86% 0.04483 259.21)",
+          "oklch(49.29% 0.04483 259.21)",
+          "oklch(60.71% 0.04483 259.21)",
+          "oklch(72.14% 0.04483 259.21)",
+          "oklch(83.57% 0.04483 259.21)",
+          "oklch(95.00% 0.04483 259.21)"
+        ]
+      },
+      "nav-hover": {
+        "role": "neutral",
+        "displayName": "导航悬停",
+        "tonalRamp": [
+          "oklch(15.00% 0.01548 257.20)",
+          "oklch(26.43% 0.01548 257.20)",
+          "oklch(37.86% 0.01548 257.20)",
+          "oklch(49.29% 0.01548 257.20)",
+          "oklch(60.71% 0.01548 257.20)",
+          "oklch(72.14% 0.01548 257.20)",
+          "oklch(83.57% 0.01548 257.20)",
+          "oklch(95.00% 0.01548 257.20)"
+        ]
+      },
+      "nav-selected": {
+        "role": "primary",
+        "displayName": "导航选中底",
+        "tonalRamp": [
+          "oklch(15.00% 0.02598 259.05)",
+          "oklch(26.43% 0.02598 259.05)",
+          "oklch(37.86% 0.02598 259.05)",
+          "oklch(49.29% 0.02598 259.05)",
+          "oklch(60.71% 0.02598 259.05)",
+          "oklch(72.14% 0.02598 259.05)",
+          "oklch(83.57% 0.02598 259.05)",
+          "oklch(95.00% 0.02598 259.05)"
+        ]
+      },
+      "nav-selected-text": {
+        "role": "primary",
+        "displayName": "导航选中文字",
+        "tonalRamp": [
+          "oklch(15.00% 0.17019 260.75)",
+          "oklch(26.43% 0.17019 260.75)",
+          "oklch(37.86% 0.17019 260.75)",
+          "oklch(49.29% 0.17019 260.75)",
+          "oklch(60.71% 0.17019 260.75)",
+          "oklch(72.14% 0.17019 260.75)",
+          "oklch(83.57% 0.17019 260.75)",
+          "oklch(95.00% 0.17019 260.75)"
+        ]
+      },
+      "secondary-hover": {
+        "role": "neutral",
+        "displayName": "次按钮悬停",
+        "tonalRamp": [
+          "oklch(15.00% 0.00910 258.34)",
+          "oklch(26.43% 0.00910 258.34)",
+          "oklch(37.86% 0.00910 258.34)",
+          "oklch(49.29% 0.00910 258.34)",
+          "oklch(60.71% 0.00910 258.34)",
+          "oklch(72.14% 0.00910 258.34)",
+          "oklch(83.57% 0.00910 258.34)",
+          "oklch(95.00% 0.00910 258.34)"
+        ]
+      },
+      "ready": {
+        "role": "semantic",
+        "displayName": "可用状态文字",
+        "tonalRamp": [
+          "oklch(15.00% 0.07708 171.45)",
+          "oklch(26.43% 0.07708 171.45)",
+          "oklch(37.86% 0.07708 171.45)",
+          "oklch(49.29% 0.07708 171.45)",
+          "oklch(60.71% 0.07708 171.45)",
+          "oklch(72.14% 0.07708 171.45)",
+          "oklch(83.57% 0.07708 171.45)",
+          "oklch(95.00% 0.07708 171.45)"
+        ]
+      },
+      "ready-surface": {
+        "role": "semantic",
+        "displayName": "可用状态底",
+        "tonalRamp": [
+          "oklch(15.00% 0.01407 162.47)",
+          "oklch(26.43% 0.01407 162.47)",
+          "oklch(37.86% 0.01407 162.47)",
+          "oklch(49.29% 0.01407 162.47)",
+          "oklch(60.71% 0.01407 162.47)",
+          "oklch(72.14% 0.01407 162.47)",
+          "oklch(83.57% 0.01407 162.47)",
+          "oklch(95.00% 0.01407 162.47)"
+        ]
+      },
+      "pending": {
+        "role": "semantic",
+        "displayName": "待完成状态文字",
+        "tonalRamp": [
+          "oklch(15.00% 0.10519 72.67)",
+          "oklch(26.43% 0.10519 72.67)",
+          "oklch(37.86% 0.10519 72.67)",
+          "oklch(49.29% 0.10519 72.67)",
+          "oklch(60.71% 0.10519 72.67)",
+          "oklch(72.14% 0.10519 72.67)",
+          "oklch(83.57% 0.10519 72.67)",
+          "oklch(95.00% 0.10519 72.67)"
+        ]
+      },
+      "pending-surface": {
+        "role": "semantic",
+        "displayName": "待完成状态底",
+        "tonalRamp": [
+          "oklch(15.00% 0.02924 87.54)",
+          "oklch(26.43% 0.02924 87.54)",
+          "oklch(37.86% 0.02924 87.54)",
+          "oklch(49.29% 0.02924 87.54)",
+          "oklch(60.71% 0.02924 87.54)",
+          "oklch(72.14% 0.02924 87.54)",
+          "oklch(83.57% 0.02924 87.54)",
+          "oklch(95.00% 0.02924 87.54)"
+        ]
+      },
+      "deleting": {
+        "role": "semantic",
+        "displayName": "删除中状态文字",
+        "tonalRamp": [
+          "oklch(15.00% 0.11806 42.53)",
+          "oklch(26.43% 0.11806 42.53)",
+          "oklch(37.86% 0.11806 42.53)",
+          "oklch(49.29% 0.11806 42.53)",
+          "oklch(60.71% 0.11806 42.53)",
+          "oklch(72.14% 0.11806 42.53)",
+          "oklch(83.57% 0.11806 42.53)",
+          "oklch(95.00% 0.11806 42.53)"
+        ]
+      },
+      "deleting-surface": {
+        "role": "semantic",
+        "displayName": "删除中状态底",
+        "tonalRamp": [
+          "oklch(15.00% 0.02025 53.26)",
+          "oklch(26.43% 0.02025 53.26)",
+          "oklch(37.86% 0.02025 53.26)",
+          "oklch(49.29% 0.02025 53.26)",
+          "oklch(60.71% 0.02025 53.26)",
+          "oklch(72.14% 0.02025 53.26)",
+          "oklch(83.57% 0.02025 53.26)",
+          "oklch(95.00% 0.02025 53.26)"
+        ]
+      },
+      "neutral-state": {
+        "role": "semantic",
+        "displayName": "中性状态文字",
+        "tonalRamp": [
+          "oklch(15.00% 0.05286 255.49)",
+          "oklch(26.43% 0.05286 255.49)",
+          "oklch(37.86% 0.05286 255.49)",
+          "oklch(49.29% 0.05286 255.49)",
+          "oklch(60.71% 0.05286 255.49)",
+          "oklch(72.14% 0.05286 255.49)",
+          "oklch(83.57% 0.05286 255.49)",
+          "oklch(95.00% 0.05286 255.49)"
+        ]
+      },
+      "disabled-state": {
+        "role": "semantic",
+        "displayName": "不可用状态文字",
+        "tonalRamp": [
+          "oklch(15.00% 0.04131 257.42)",
+          "oklch(26.43% 0.04131 257.42)",
+          "oklch(37.86% 0.04131 257.42)",
+          "oklch(49.29% 0.04131 257.42)",
+          "oklch(60.71% 0.04131 257.42)",
+          "oklch(72.14% 0.04131 257.42)",
+          "oklch(83.57% 0.04131 257.42)",
+          "oklch(95.00% 0.04131 257.42)"
+        ]
+      },
+      "disabled-surface": {
+        "role": "semantic",
+        "displayName": "禁用状态底",
+        "tonalRamp": [
+          "oklch(15.00% 0.00577 264.53)",
+          "oklch(26.43% 0.00577 264.53)",
+          "oklch(37.86% 0.00577 264.53)",
+          "oklch(49.29% 0.00577 264.53)",
+          "oklch(60.71% 0.00577 264.53)",
+          "oklch(72.14% 0.00577 264.53)",
+          "oklch(83.57% 0.00577 264.53)",
+          "oklch(95.00% 0.00577 264.53)"
+        ]
+      },
+      "danger": {
+        "role": "semantic",
+        "displayName": "危险动作文字",
+        "tonalRamp": [
+          "oklch(15.00% 0.15469 24.06)",
+          "oklch(26.43% 0.15469 24.06)",
+          "oklch(37.86% 0.15469 24.06)",
+          "oklch(49.29% 0.15469 24.06)",
+          "oklch(60.71% 0.15469 24.06)",
+          "oklch(72.14% 0.15469 24.06)",
+          "oklch(83.57% 0.15469 24.06)",
+          "oklch(95.00% 0.15469 24.06)"
+        ]
+      },
+      "danger-hover": {
+        "role": "semantic",
+        "displayName": "危险动作悬停",
+        "tonalRamp": [
+          "oklch(15.00% 0.01194 23.70)",
+          "oklch(26.43% 0.01194 23.70)",
+          "oklch(37.86% 0.01194 23.70)",
+          "oklch(49.29% 0.01194 23.70)",
+          "oklch(60.71% 0.01194 23.70)",
+          "oklch(72.14% 0.01194 23.70)",
+          "oklch(83.57% 0.01194 23.70)",
+          "oklch(95.00% 0.01194 23.70)"
+        ]
+      },
+      "notice-surface": {
+        "role": "semantic",
+        "displayName": "Mock 提示底",
+        "tonalRamp": [
+          "oklch(15.00% 0.01610 262.75)",
+          "oklch(26.43% 0.01610 262.75)",
+          "oklch(37.86% 0.01610 262.75)",
+          "oklch(49.29% 0.01610 262.75)",
+          "oklch(60.71% 0.01610 262.75)",
+          "oklch(72.14% 0.01610 262.75)",
+          "oklch(83.57% 0.01610 262.75)",
+          "oklch(95.00% 0.01610 262.75)"
+        ]
+      },
+      "notice-text": {
+        "role": "semantic",
+        "displayName": "Mock 提示文字",
+        "tonalRamp": [
+          "oklch(15.00% 0.06690 256.41)",
+          "oklch(26.43% 0.06690 256.41)",
+          "oklch(37.86% 0.06690 256.41)",
+          "oklch(49.29% 0.06690 256.41)",
+          "oklch(60.71% 0.06690 256.41)",
+          "oklch(72.14% 0.06690 256.41)",
+          "oklch(83.57% 0.06690 256.41)",
+          "oklch(95.00% 0.06690 256.41)"
+        ]
+      },
+      "warning-surface": {
+        "role": "semantic",
+        "displayName": "排查警告底",
+        "tonalRamp": [
+          "oklch(15.00% 0.02252 78.22)",
+          "oklch(26.43% 0.02252 78.22)",
+          "oklch(37.86% 0.02252 78.22)",
+          "oklch(49.29% 0.02252 78.22)",
+          "oklch(60.71% 0.02252 78.22)",
+          "oklch(72.14% 0.02252 78.22)",
+          "oklch(83.57% 0.02252 78.22)",
+          "oklch(95.00% 0.02252 78.22)"
+        ]
+      },
+      "warning-text": {
+        "role": "semantic",
+        "displayName": "排查警告文字",
+        "tonalRamp": [
+          "oklch(15.00% 0.08725 77.44)",
+          "oklch(26.43% 0.08725 77.44)",
+          "oklch(37.86% 0.08725 77.44)",
+          "oklch(49.29% 0.08725 77.44)",
+          "oklch(60.71% 0.08725 77.44)",
+          "oklch(72.14% 0.08725 77.44)",
+          "oklch(83.57% 0.08725 77.44)",
+          "oklch(95.00% 0.08725 77.44)"
+        ]
+      },
+      "ghost-text": {
+        "role": "neutral",
+        "displayName": "轻量操作文字",
+        "tonalRamp": [
+          "oklch(15.00% 0.05114 252.79)",
+          "oklch(26.43% 0.05114 252.79)",
+          "oklch(37.86% 0.05114 252.79)",
+          "oklch(49.29% 0.05114 252.79)",
+          "oklch(60.71% 0.05114 252.79)",
+          "oklch(72.14% 0.05114 252.79)",
+          "oklch(83.57% 0.05114 252.79)",
+          "oklch(95.00% 0.05114 252.79)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "页面标题",
+        "purpose": "桌面页面标题；移动端尺寸见 DESIGN.md Layout 与 Typography。"
+      },
+      "title": {
+        "displayName": "区块标题",
+        "purpose": "通用 h2 层级；对话框与详情有已记录的上下文尺寸。"
+      },
+      "body": {
+        "displayName": "根字号",
+        "purpose": "系统无衬线基础；数据界面大量使用较小的 label 层级。"
+      },
+      "label": {
+        "displayName": "界面标签",
+        "purpose": "表格、控件、元数据、辅助说明；强调字重由具体组件决定。"
+      },
+      "filename": {
+        "displayName": "文件名称",
+        "purpose": "列表主信息，单行省略；详情保留完整文本。"
+      },
+      "mono": {
+        "displayName": "标识与数值",
+        "purpose": "文件 ID、Key 前缀和文件大小；不用于中文说明。"
+      }
+    },
+    "shadows": [
+      {
+        "name": "button-primary",
+        "value": "0 2px 3px #1d4a8d10",
+        "purpose": "主按钮的轻微层次。"
+      },
+      {
+        "name": "dialog",
+        "value": "0 20px 80px #17212b30",
+        "purpose": "临时对话框覆盖工作区。"
+      },
+      {
+        "name": "mobile-sidebar",
+        "value": "8px 0 30px #22334410",
+        "purpose": "窄屏导航遮挡当前工作区。"
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease",
+        "value": "cubic-bezier(0.16,1,0.3,1)",
+        "purpose": "CSS 标准缓动与页面切换曲线；详情 Motion 未显式设置曲线。"
+      },
+      {
+        "name": "button-colors",
+        "value": "160ms",
+        "purpose": "通用按钮背景、边框与阴影过渡。"
+      },
+      {
+        "name": "button-transform",
+        "value": "120ms",
+        "purpose": "未禁用按钮按压 translateY(1px) scale(0.98)。"
+      },
+      {
+        "name": "input-transition",
+        "value": "180ms",
+        "purpose": "输入与选择框的背景、边框与阴影过渡。"
+      },
+      {
+        "name": "navigation-colors",
+        "value": "180ms",
+        "purpose": "导航背景与文字色过渡。"
+      },
+      {
+        "name": "navigation-press",
+        "value": "140ms",
+        "purpose": "导航按压 translateX(2px)。"
+      },
+      {
+        "name": "file-tab-transition",
+        "value": "160ms",
+        "purpose": "文件状态筛选的颜色和边框过渡。"
+      },
+      {
+        "name": "row-transition",
+        "value": "160ms",
+        "purpose": "表格行背景状态变化。"
+      },
+      {
+        "name": "page-transition",
+        "value": "160ms",
+        "purpose": "页面入场 opacity 0.5 → 1、y 5px → 0；退出淡出。"
+      },
+      {
+        "name": "detail-transition",
+        "value": "180ms",
+        "purpose": "桌面详情入场 opacity 0.5 → 1、x 8px → 0；退出淡出。"
+      },
+      {
+        "name": "overlay-enter",
+        "value": "180ms",
+        "purpose": "Radix 遮罩 opacity 0 → 1。"
+      },
+      {
+        "name": "overlay-exit",
+        "value": "140ms ease-in",
+        "purpose": "Radix 遮罩退出淡出。"
+      },
+      {
+        "name": "dialog-enter",
+        "value": "220ms",
+        "purpose": "Radix 内容 opacity 0 → 1，translate(-50%,-48%) scale(0.98) → translate(-50%,-50%) scale(1)。"
+      },
+      {
+        "name": "dialog-exit",
+        "value": "140ms ease-in",
+        "purpose": "普通 Radix 内容淡出并回到偏下缩小位置。"
+      },
+      {
+        "name": "drawer-enter",
+        "value": "220ms",
+        "purpose": "详情抽屉 translateX(100%) → translateX(0)。"
+      },
+      {
+        "name": "drawer-exit",
+        "value": "160ms ease-in",
+        "purpose": "详情抽屉退出至 translateX(100%)。"
+      },
+      {
+        "name": "mobile-sidebar-transition",
+        "value": "200ms",
+        "purpose": "移动导航 translateX(-100%) → translateX(0)。"
+      },
+      {
+        "name": "skeleton",
+        "value": "1600ms linear infinite",
+        "purpose": "加载骨架背景流动，仅等待时显示。"
+      },
+      {
+        "name": "refresh",
+        "value": "800ms linear infinite",
+        "purpose": "刷新请求期间图标旋转。"
+      },
+      {
+        "name": "upload-pulse",
+        "value": "1000ms ease-in-out infinite",
+        "purpose": "上传状态圆点 opacity 在周期中段降至 0.35。"
+      },
+      {
+        "name": "reduced-motion",
+        "value": "MotionConfig reducedMotion=\"user\"; prefers-reduced-motion: reduce",
+        "purpose": "页面与详情 duration 为 0；CSS 关闭动画、过渡，scroll-behavior 为 auto。"
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "wide-desktop",
+        "value": "min-width: 1600px"
+      },
+      {
+        "name": "compact-desktop",
+        "value": "max-width: 1250px"
+      },
+      {
+        "name": "detail-drawer",
+        "value": "max-width: 1050px"
+      },
+      {
+        "name": "mobile",
+        "value": "max-width: 760px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "主按钮",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "静态视觉示例：上传与主要提交动作；悬停变深，未禁用时按压下移 1px 并缩放至 0.98。",
+      "html": "<button class=\"ds-primary\" type=\"button\"><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 3v12\"></path><path d=\"m17 8-5-5-5 5\"></path><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"></path></svg>上传文件</button>",
+      "css": ".ds-primary{height:37px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:0 15px;border:1px solid var(--accent,#245fce);border-radius:6px;background:var(--accent,#245fce);color:#fff;font:550 12px ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",\"Noto Sans CJK SC\",sans-serif;white-space:nowrap;cursor:pointer;transition:background-color .18s var(--ease,cubic-bezier(.16,1,.3,1)),border-color .18s var(--ease,cubic-bezier(.16,1,.3,1)),box-shadow .18s var(--ease,cubic-bezier(.16,1,.3,1))}.ds-primary svg{width:16px;height:16px;flex-shrink:0}.ds-primary:focus-visible{outline:2px solid var(--accent,#245fce);outline-offset:3px}.ds-primary:disabled{cursor:not-allowed;opacity:.55}.ds-primary{box-shadow:0 2px 3px #1d4a8d10}.ds-primary:hover{background:#1d50b3;border-color:#1d50b3}@media(prefers-reduced-motion:reduce){.ds-primary{animation:none!important;transition:none!important;scroll-behavior:auto!important}}.ds-primary{transition:background-color 160ms var(--ease,cubic-bezier(.16,1,.3,1)),border-color 160ms var(--ease,cubic-bezier(.16,1,.3,1)),box-shadow 160ms var(--ease,cubic-bezier(.16,1,.3,1)),transform 120ms var(--ease,cubic-bezier(.16,1,.3,1))}.ds-primary:active:not(:disabled){transform:translateY(1px) scale(.98)}.ds-primary:disabled{cursor:not-allowed;opacity:.55}@media(prefers-reduced-motion:reduce){.ds-primary{animation:none!important;transition:none!important;scroll-behavior:auto!important}}"
+    },
+    {
+      "name": "次按钮",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "静态视觉示例：取消、关闭或次要操作；白底细边界。",
+      "html": "<button class=\"ds-secondary\" type=\"button\">取消</button>",
+      "css": ".ds-secondary{height:37px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:0 15px;border:1px solid #dce3ed;border-radius:6px;background:#fff;color:#233249;font:550 12px ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",\"Noto Sans CJK SC\",sans-serif;white-space:nowrap;cursor:pointer;transition:background-color .18s var(--ease,cubic-bezier(.16,1,.3,1)),border-color .18s var(--ease,cubic-bezier(.16,1,.3,1)),box-shadow .18s var(--ease,cubic-bezier(.16,1,.3,1))}.ds-secondary svg{width:16px;height:16px;flex-shrink:0}.ds-secondary:focus-visible{outline:2px solid var(--accent,#245fce);outline-offset:3px}.ds-secondary:disabled{cursor:not-allowed;opacity:.55}.ds-secondary:hover{background:#f0f4fa}@media(prefers-reduced-motion:reduce){.ds-secondary{animation:none!important;transition:none!important;scroll-behavior:auto!important}}.ds-secondary{transition:background-color 160ms var(--ease,cubic-bezier(.16,1,.3,1)),border-color 160ms var(--ease,cubic-bezier(.16,1,.3,1)),box-shadow 160ms var(--ease,cubic-bezier(.16,1,.3,1)),transform 120ms var(--ease,cubic-bezier(.16,1,.3,1))}.ds-secondary:active:not(:disabled){transform:translateY(1px) scale(.98)}.ds-secondary:disabled{cursor:not-allowed;opacity:.55}@media(prefers-reduced-motion:reduce){.ds-secondary{animation:none!important;transition:none!important;scroll-behavior:auto!important}}"
+    },
+    {
+      "name": "危险动作按钮",
+      "kind": "button",
+      "refersTo": "button-danger",
+      "description": "静态视觉示例：删除确认、永久撤销和重试删除等需要强调的动作。",
+      "html": "<button class=\"ds-danger\" type=\"button\"><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8\"></path><path d=\"M21 3v5h-5\"></path></svg>重试删除</button>",
+      "css": ".ds-danger{height:37px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:0 15px;border:1px solid #e8cccc;border-radius:6px;background:#fff;color:#b43d3d;font:550 12px ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",\"Noto Sans CJK SC\",sans-serif;white-space:nowrap;cursor:pointer;transition:background-color .18s var(--ease,cubic-bezier(.16,1,.3,1)),border-color .18s var(--ease,cubic-bezier(.16,1,.3,1)),box-shadow .18s var(--ease,cubic-bezier(.16,1,.3,1))}.ds-danger svg{width:16px;height:16px;flex-shrink:0}.ds-danger:focus-visible{outline:2px solid var(--accent,#245fce);outline-offset:3px}.ds-danger:disabled{cursor:not-allowed;opacity:.55}.ds-danger:hover{background:#fff4f3}@media(prefers-reduced-motion:reduce){.ds-danger{animation:none!important;transition:none!important;scroll-behavior:auto!important}}.ds-danger{transition:background-color 160ms var(--ease,cubic-bezier(.16,1,.3,1)),border-color 160ms var(--ease,cubic-bezier(.16,1,.3,1)),box-shadow 160ms var(--ease,cubic-bezier(.16,1,.3,1)),transform 120ms var(--ease,cubic-bezier(.16,1,.3,1))}.ds-danger:active:not(:disabled){transform:translateY(1px) scale(.98)}.ds-danger:disabled{cursor:not-allowed;opacity:.55}@media(prefers-reduced-motion:reduce){.ds-danger{animation:none!important;transition:none!important;scroll-behavior:auto!important}}"
+    },
+    {
+      "name": "行内轻量按钮",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "静态视觉示例：行内启停等轻量操作，采用 ghost variant；此处不执行状态变更。",
+      "html": "<button class=\"ds-ghost\" type=\"button\">禁用</button>",
+      "css": ".ds-ghost{height:30px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:0 8px;border:1px solid transparent;border-radius:6px;background:transparent;color:#526984;font:550 12px ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",\"Noto Sans CJK SC\",sans-serif;white-space:nowrap;cursor:pointer}.ds-ghost:hover{background:#edf2f8}.ds-ghost:focus-visible{outline:2px solid var(--accent,#245fce);outline-offset:3px}.ds-ghost{transition:background-color 160ms var(--ease,cubic-bezier(.16,1,.3,1)),border-color 160ms var(--ease,cubic-bezier(.16,1,.3,1)),box-shadow 160ms var(--ease,cubic-bezier(.16,1,.3,1)),transform 120ms var(--ease,cubic-bezier(.16,1,.3,1))}.ds-ghost:active:not(:disabled){transform:translateY(1px) scale(.98)}.ds-ghost:disabled{cursor:not-allowed;opacity:.55}@media(prefers-reduced-motion:reduce){.ds-ghost{animation:none!important;transition:none!important;scroll-behavior:auto!important}}"
+    },
+    {
+      "name": "图标按钮",
+      "kind": "button",
+      "refersTo": "button-icon",
+      "description": "静态视觉示例：关闭等紧凑动作；保留可访问名称与键盘焦点。",
+      "html": "<button class=\"ds-icon-button\" type=\"button\" aria-label=\"关闭文件详情\"><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M18 6 6 18\"></path><path d=\"m6 6 12 12\"></path></svg></button>",
+      "css": ".ds-icon-button{width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;border:1px solid transparent;background:transparent;border-radius:5px;color:#68798f;cursor:pointer;transition:background-color .18s var(--ease,cubic-bezier(.16,1,.3,1)),border-color .18s var(--ease,cubic-bezier(.16,1,.3,1)),box-shadow .18s var(--ease,cubic-bezier(.16,1,.3,1))}.ds-icon-button:hover{background:#edf2f8;color:#284c78}.ds-icon-button svg{width:18px;height:18px}.ds-icon-button:focus-visible{outline:2px solid var(--accent,#245fce);outline-offset:3px}@media(prefers-reduced-motion:reduce){.ds-icon-button{animation:none!important;transition:none!important;scroll-behavior:auto!important}}.ds-icon-button{transition:background-color 160ms var(--ease,cubic-bezier(.16,1,.3,1)),border-color 160ms var(--ease,cubic-bezier(.16,1,.3,1)),box-shadow 160ms var(--ease,cubic-bezier(.16,1,.3,1)),transform 120ms var(--ease,cubic-bezier(.16,1,.3,1))}.ds-icon-button:active:not(:disabled){transform:translateY(1px) scale(.98)}.ds-icon-button:disabled{cursor:not-allowed;opacity:.55}@media(prefers-reduced-motion:reduce){.ds-icon-button{animation:none!important;transition:none!important;scroll-behavior:auto!important}}"
+    },
+    {
+      "name": "文件搜索",
+      "kind": "input",
+      "refersTo": "search-field",
+      "description": "静态视觉示例：组合搜索框，包含搜索图标与文本输入；当前 React 没有搜索快捷键。",
+      "html": "<label class=\"ds-search\"><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m21 21-4.34-4.34\"></path><circle cx=\"11\" cy=\"11\" r=\"8\"></circle></svg><input aria-label=\"搜索文件名称\" placeholder=\"搜索文件名称…\" type=\"search\"></label>",
+      "css": ".ds-search{height:36px;display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #dbe2ed;border-radius:6px;padding:0 11px;max-width:320px;color:var(--muted,#5b6b82);font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",\"Noto Sans CJK SC\",sans-serif}.ds-search svg{width:15px;height:15px;flex-shrink:0}.ds-search input{min-width:0;width:100%;border:0;height:30px;font:400 12px ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",\"Noto Sans CJK SC\",sans-serif;color:#35455b;background:none;outline:none;caret-color:var(--accent,#245fce)}.ds-search:focus-within{outline:2px solid #c0d6fb;border-color:#678bc5}.ds-search input::placeholder{color:var(--muted,#5b6b82)}"
+    },
+    {
+      "name": "侧栏导航",
+      "kind": "nav",
+      "refersTo": "nav-item-active",
+      "description": "静态视觉示例：当前项通过背景、文字和字重共同区分；片段保留焦点样式，不执行路由导航或移动焦点约束。",
+      "html": "<nav class=\"ds-nav\" aria-label=\"管理导航\"><a class=\"ds-nav-item ds-nav-active\" role=\"link\" tabindex=\"0\" aria-current=\"page\"><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M15 2h-4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8\"></path><path d=\"M16.706 2.706A2.4 2.4 0 0 0 15 2v5a1 1 0 0 0 1 1h5a2.4 2.4 0 0 0-.706-1.706z\"></path><path d=\"M5 7a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h8a2 2 0 0 0 1.732-1\"></path></svg><span>文件</span></a><a class=\"ds-nav-item\" role=\"link\" tabindex=\"0\"><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><ellipse cx=\"12\" cy=\"5\" rx=\"9\" ry=\"3\"></ellipse><path d=\"M3 5V19A9 3 0 0 0 21 19V5\"></path><path d=\"M3 12A9 3 0 0 0 21 12\"></path></svg><span>存储实例</span></a><a class=\"ds-nav-item\" role=\"link\" tabindex=\"0\"><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z\"></path><circle cx=\"16.5\" cy=\"7.5\" r=\".5\" fill=\"currentColor\"></circle></svg><span>API Key</span></a></nav>",
+      "css": ".ds-nav{background:#edf2f8;width:192px;padding:8px 16px;font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",\"Noto Sans CJK SC\",sans-serif}.ds-nav-item{height:43px;display:flex;gap:11px;align-items:center;border-radius:6px;padding:0 13px;margin:4px 0;color:#52627b;font-size:13px;font-weight:500;text-decoration:none;transition:background .18s var(--ease,cubic-bezier(.16,1,.3,1))}.ds-nav-item svg{width:18px;height:18px;flex-shrink:0}.ds-nav-item:hover{background:#e3eaf4}.ds-nav-item.ds-nav-active{color:#1e58bd;background:#dce7f8;font-weight:650}.ds-nav-item:focus-visible{outline:2px solid var(--accent,#245fce);outline-offset:3px}@media(prefers-reduced-motion:reduce){.ds-nav-item{animation:none!important;transition:none!important;scroll-behavior:auto!important}}.ds-nav-item{cursor:pointer;transition:background-color 180ms var(--ease,cubic-bezier(.16,1,.3,1)),color 180ms var(--ease,cubic-bezier(.16,1,.3,1)),transform 140ms var(--ease,cubic-bezier(.16,1,.3,1))}.ds-nav-item:active{transform:translateX(2px)}@media(prefers-reduced-motion:reduce){.ds-nav-item{transition:none!important}}"
+    },
+    {
+      "name": "文件与 Key 状态标签",
+      "kind": "chip",
+      "refersTo": "badge-ready",
+      "description": "静态视觉示例：文件状态以文字和颜色共同表达；Key 的已禁用、已过期、已撤销使用同一灰色不可用样式。",
+      "html": "<div class=\"ds-status-samples\"><span class=\"ds-badge ds-ready\">可用</span><span class=\"ds-badge ds-pending\">待完成</span><span class=\"ds-badge ds-deleting\">删除中</span><span class=\"ds-unavailable\">已禁用</span><span class=\"ds-unavailable\">已过期</span><span class=\"ds-unavailable\">已撤销</span></div>",
+      "css": ".ds-status-samples{display:flex;gap:8px;flex-wrap:wrap}.ds-badge{display:inline-flex;align-items:center;gap:5px;font:400 12px ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",\"Noto Sans CJK SC\",sans-serif;border-radius:4px;padding:3px 6px;line-height:1.2;white-space:nowrap}.ds-badge::before{content:\"\";width:4px;height:4px;border-radius:50%;background:currentColor}.ds-ready{color:#327763;background:#eaf5ef}.ds-pending{color:#94641a;background:#fcf3de}.ds-deleting{color:#944421;background:#fff0e7}.ds-unavailable{display:inline-flex;align-items:center;gap:5px;font:400 12px ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",\"Noto Sans CJK SC\",sans-serif;border-radius:4px;padding:3px 6px;line-height:1.2;white-space:nowrap;color:#5b6b82;background:#eef0f4}.ds-unavailable::before{content:\"\";width:4px;height:4px;border-radius:50%;background:currentColor}"
+    },
+    {
+      "name": "文件表格与选中详情",
+      "kind": "custom",
+      "refersTo": "file-workspace",
+      "description": "静态视觉示例：连续数据表和右详情的选中态示意，只展示部分字段；示例记录不对应运行中的数据。",
+      "html": "<div class=\"ds-workspace\"><div class=\"ds-file-list\"><table class=\"ds-file-table\"><thead><tr><th>文件名称</th><th>状态</th></tr></thead><tbody><tr class=\"ds-file-selected\"><td><button class=\"ds-file-name\" type=\"button\"><span class=\"ds-file-icon\"><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\"></path><path d=\"M14 2v5a1 1 0 0 0 1 1h5\"></path><path d=\"M10 9H8\"></path><path d=\"M16 13H8\"></path><path d=\"M16 17H8\"></path></svg></span><span><strong>brand-guidelines.pdf</strong><small>10-18 09:42</small></span></button></td><td><span class=\"ds-file-status\">可用</span></td></tr><tr><td><button class=\"ds-file-name\" type=\"button\"><span class=\"ds-file-icon\"><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\"></path><path d=\"M14 2v5a1 1 0 0 0 1 1h5\"></path><path d=\"M10 9H8\"></path><path d=\"M16 13H8\"></path><path d=\"M16 17H8\"></path></svg></span><span><strong>meeting-notes.md</strong><small>10-18 09:15</small></span></button></td><td><span class=\"ds-file-status\">可用</span></td></tr></tbody></table></div><aside class=\"ds-file-detail\"><div class=\"ds-file-detail-top\">文件详情<button class=\"ds-file-close\" type=\"button\" aria-label=\"关闭文件详情\"><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M18 6 6 18\"></path><path d=\"m6 6 12 12\"></path></svg></button></div><div class=\"ds-file-hero\"><span class=\"ds-file-icon\"><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\"></path><path d=\"M14 2v5a1 1 0 0 0 1 1h5\"></path><path d=\"M10 9H8\"></path><path d=\"M16 13H8\"></path><path d=\"M16 17H8\"></path></svg></span><h2>brand-guidelines.pdf</h2><span class=\"ds-file-status\">可用</span></div><dl class=\"ds-file-meta\"><div><dt>文件 ID</dt><dd class=\"ds-file-mono\">file_brand</dd></div><div><dt>存储实例</dt><dd>对象存储</dd></div><div><dt>文件大小</dt><dd class=\"ds-file-mono\">2.4 MB</dd></div></dl></aside></div>",
+      "css": ".ds-workspace{display:flex;align-items:stretch;border:1px solid #dfe5ed;border-radius:8px;background:#fff;overflow:hidden;max-width:100%;font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",\"Noto Sans CJK SC\",sans-serif;color:#233249}.ds-file-list{flex:1;min-width:0;overflow:auto}.ds-file-table{border-collapse:collapse;width:100%;text-align:left;white-space:nowrap}.ds-file-table th{height:43px;background:#f8fafd;color:var(--muted,#5b6b82);font-size:12px;font-weight:500;border-bottom:1px solid #e5eaf1;padding:0 15px}.ds-file-table td{height:66px;border-bottom:1px solid #edf0f5;padding:0 15px;font-size:12px}.ds-file-table th:first-child,.ds-file-table td:first-child{padding-left:20px}.ds-file-table tbody tr{transition:background .16s var(--ease,cubic-bezier(.16,1,.3,1))}.ds-file-table tbody tr:hover{background:#f8faff}.ds-file-table tbody tr.ds-file-selected{background:#f0f5fd}.ds-file-name{border:0;background:transparent;display:flex;align-items:center;gap:10px;text-align:left;padding:5px 0;max-width:260px;cursor:pointer;font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",\"Noto Sans CJK SC\",sans-serif}.ds-file-name strong{display:block;color:#34435b;font-size:13px;font-weight:550;max-width:177px;overflow:hidden;text-overflow:ellipsis}.ds-file-name small{display:block;color:var(--muted,#5b6b82);font-size:12px;margin-top:5px;font-weight:400;font-variant-numeric:tabular-nums}.ds-file-icon{color:#607dc0;width:32px;height:36px;display:grid;place-items:center;border-radius:5px;background:#eef2fc;flex-shrink:0}.ds-file-icon svg{width:18px;height:18px}.ds-file-status{display:inline-flex;align-items:center;gap:5px;font-size:12px;border-radius:4px;padding:3px 6px;line-height:1.2;white-space:nowrap;color:#327763;background:#eaf5ef}.ds-file-status::before{content:\"\";width:4px;height:4px;border-radius:50%;background:currentColor}.ds-file-detail{width:284px;flex-shrink:0;border-left:1px solid var(--line,#e2e8f0);background:#fcfdff;padding:18px 20px}.ds-file-detail-top{display:flex;justify-content:space-between;align-items:center;color:#65758c;font-size:12px}.ds-file-close{width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;border:1px solid transparent;background:transparent;border-radius:5px;color:#68798f;cursor:pointer;transition:background-color .18s var(--ease,cubic-bezier(.16,1,.3,1))}.ds-file-close:hover{background:#edf2f8;color:#284c78}.ds-file-close svg{width:18px;height:18px}.ds-file-hero{padding:20px 0 22px;border-bottom:1px solid var(--line,#e2e8f0)}.ds-file-hero>.ds-file-icon{width:42px;height:48px;margin-bottom:14px}.ds-file-hero>.ds-file-icon svg{width:24px;height:24px}.ds-file-hero h2{font-size:13px;font-weight:650;word-break:break-all;line-height:1.5;margin:0 0 10px}.ds-file-meta{margin:18px 0}.ds-file-meta>div{display:flex;justify-content:space-between;gap:12px;margin:14px 0;font-size:12px}.ds-file-meta dt{color:var(--muted,#5b6b82);flex-shrink:0}.ds-file-meta dd{margin:0;text-align:right;color:#4c5b70;overflow-wrap:anywhere;min-width:0}.ds-file-mono{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-variant-numeric:tabular-nums}.ds-file-name:focus-visible{outline:2px solid var(--accent,#245fce);outline-offset:3px}.ds-file-close:focus-visible{outline:2px solid var(--accent,#245fce);outline-offset:3px}@media(prefers-reduced-motion:reduce){.ds-file-table tbody tr,.ds-file-close{animation:none!important;transition:none!important;scroll-behavior:auto!important}}.ds-file-name{transition:background-color 160ms var(--ease,cubic-bezier(.16,1,.3,1)),border-color 160ms var(--ease,cubic-bezier(.16,1,.3,1)),box-shadow 160ms var(--ease,cubic-bezier(.16,1,.3,1)),transform 120ms var(--ease,cubic-bezier(.16,1,.3,1))}.ds-file-name:active:not(:disabled){transform:translateY(1px) scale(.98)}.ds-file-name:disabled{cursor:not-allowed;opacity:.55}.ds-file-close{transition:background-color 160ms var(--ease,cubic-bezier(.16,1,.3,1)),border-color 160ms var(--ease,cubic-bezier(.16,1,.3,1)),box-shadow 160ms var(--ease,cubic-bezier(.16,1,.3,1)),transform 120ms var(--ease,cubic-bezier(.16,1,.3,1))}.ds-file-close:active:not(:disabled){transform:translateY(1px) scale(.98)}.ds-file-close:disabled{cursor:not-allowed;opacity:.55}@media(prefers-reduced-motion:reduce){.ds-file-name,.ds-file-close{animation:none!important;transition:none!important;scroll-behavior:auto!important}}"
+    },
+    {
+      "name": "上传对话框",
+      "kind": "custom",
+      "refersTo": "form-dialog",
+      "description": "静态视觉示例：上传内容的视觉示例，按钮不发起请求；React 使用 Radix Dialog，实际上传进度与错误由 API 请求驱动。",
+      "html": "<section class=\"ds-upload\"><div class=\"ds-upload-heading\"><div><h2>上传文件</h2><p>选择目标实例和文件可见性。</p></div><button type=\"button\" class=\"ds-upload-close\" aria-label=\"关闭上传窗口\"><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M18 6 6 18\"></path><path d=\"m6 6 12 12\"></path></svg></button></div><label class=\"ds-upload-drop\"><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 13v8\"></path><path d=\"M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242\"></path><path d=\"m8 17 4-4 4 4\"></path></svg><strong>选择文件，或拖放到这里</strong><span>Mock 模式 · 单文件上限 8.0 MiB</span><input type=\"file\" aria-label=\"选择上传文件\"></label><label class=\"ds-upload-label\" for=\"ds-upload-instance\">目标存储实例</label><select class=\"ds-upload-select\" id=\"ds-upload-instance\"><option>对象存储 · s3</option><option>文件归档 · telegram</option></select><fieldset class=\"ds-upload-options\"><legend>文件可见性</legend><label><input type=\"radio\" name=\"ds-upload-visibility\" checked><span><strong>私有</strong><small>仅所属 API Key 和管理员可访问</small></span><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect width=\"18\" height=\"11\" x=\"3\" y=\"11\" rx=\"2\" ry=\"2\"></rect><path d=\"M7 11V7a5 5 0 0 1 10 0v4\"></path></svg></label><label><input type=\"radio\" name=\"ds-upload-visibility\"><span><strong>公开</strong><small>任何持有文件地址的人均可下载</small></span><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"10\"></circle><path d=\"M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20\"></path><path d=\"M2 12h20\"></path></svg></label></fieldset><div class=\"ds-upload-actions\"><button type=\"button\" class=\"ds-upload-cancel\">取消</button><button type=\"button\" class=\"ds-upload-submit\"><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 3v12\"></path><path d=\"m17 8-5-5-5 5\"></path><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"></path></svg>开始上传</button></div></section>",
+      "css": ".ds-upload{border:1px solid #e1e7ef;border-radius:12px;box-shadow:0 20px 80px #17212b30;color:#233249;max-height:90dvh;overflow:auto;padding:26px;background:#fff;width:470px;max-width:calc(100vw - 28px);font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",\"Noto Sans CJK SC\",sans-serif}.ds-upload-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:15px;margin-bottom:24px}.ds-upload-heading h2{font-size:20px;font-weight:650;margin:0}.ds-upload-heading p{font-size:12px;margin:7px 0 0;line-height:1.65;color:var(--muted,#5b6b82)}.ds-upload-close{width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;border:1px solid transparent;background:transparent;border-radius:5px;color:#68798f;cursor:pointer;margin:-5px -8px 0 0;transition:background-color .18s var(--ease,cubic-bezier(.16,1,.3,1))}.ds-upload-close:hover{background:#edf2f8;color:#284c78}.ds-upload-close svg{width:18px;height:18px}.ds-upload-drop{position:relative;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:28px 16px;gap:10px;border:1px dashed #aabedc;background:#f6f9fe;border-radius:8px;text-align:center;cursor:pointer}.ds-upload-drop:hover,.ds-upload-drop:focus-within{background:#ecf3ff;border-color:var(--accent,#245fce)}.ds-upload-drop>svg{width:30px;height:30px;color:#6f8fbf}.ds-upload-drop strong{font-size:12px;color:#365c91;word-break:break-all}.ds-upload-drop span{font-size:12px;color:var(--muted,#5b6b82)}.ds-upload-drop input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}.ds-upload-label{display:block;font-size:12px;margin:22px 0 9px}.ds-upload-select{width:100%;height:38px;border:1px solid #dbe2ed;border-radius:5px;background:#fff;padding:8px 10px;font:400 12px ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",\"Noto Sans CJK SC\",sans-serif;color:#35455b}.ds-upload-options{border:0;padding:0;margin:22px 0}.ds-upload-options legend{font-size:12px;margin-bottom:10px}.ds-upload-options label{display:flex;align-items:center;gap:9px;border:1px solid var(--line,#e2e8f0);border-radius:6px;padding:12px;margin-bottom:8px;cursor:pointer}.ds-upload-options label:has(:checked){border-color:#8eafe5;background:#f5f8ff}.ds-upload-options input{accent-color:#245fce}.ds-upload-options strong{font-size:12px;font-weight:550}.ds-upload-options small{display:block;font-size:12px;margin-top:4px;color:var(--muted,#5b6b82)}.ds-upload-options label>svg{margin-left:auto;width:15px;height:15px;color:#7288a8}.ds-upload-actions{display:flex;justify-content:flex-end;gap:9px;padding-top:20px;border-top:1px solid #e8edf4;margin-top:24px}.ds-upload-cancel{height:37px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:0 15px;border:1px solid #dce3ed;border-radius:6px;background:#fff;color:#233249;font:550 12px ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",\"Noto Sans CJK SC\",sans-serif;white-space:nowrap;cursor:pointer;transition:background-color .18s var(--ease,cubic-bezier(.16,1,.3,1)),border-color .18s var(--ease,cubic-bezier(.16,1,.3,1)),box-shadow .18s var(--ease,cubic-bezier(.16,1,.3,1))}.ds-upload-cancel svg{width:16px;height:16px;flex-shrink:0}.ds-upload-cancel:focus-visible{outline:2px solid var(--accent,#245fce);outline-offset:3px}.ds-upload-cancel:disabled{cursor:not-allowed;opacity:.55}.ds-upload-cancel:hover{background:#f0f4fa}.ds-upload-submit{height:37px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:0 15px;border:1px solid var(--accent,#245fce);border-radius:6px;background:var(--accent,#245fce);color:#fff;font:550 12px ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,\"Segoe UI\",\"Noto Sans CJK SC\",sans-serif;white-space:nowrap;cursor:pointer;transition:background-color .18s var(--ease,cubic-bezier(.16,1,.3,1)),border-color .18s var(--ease,cubic-bezier(.16,1,.3,1)),box-shadow .18s var(--ease,cubic-bezier(.16,1,.3,1))}.ds-upload-submit svg{width:16px;height:16px;flex-shrink:0}.ds-upload-submit:focus-visible{outline:2px solid var(--accent,#245fce);outline-offset:3px}.ds-upload-submit:disabled{cursor:not-allowed;opacity:.55}.ds-upload-submit{box-shadow:0 2px 3px #1d4a8d10}.ds-upload-submit:hover{background:#1d50b3;border-color:#1d50b3}.ds-upload-close:focus-visible{outline:2px solid var(--accent,#245fce);outline-offset:3px}.ds-upload-select:focus-visible{outline:2px solid var(--accent,#245fce);outline-offset:3px}.ds-upload-options input:focus-visible{outline:2px solid var(--accent,#245fce);outline-offset:3px}@media(max-width:760px){.ds-upload{padding:22px}}@media(prefers-reduced-motion:reduce){.ds-upload-close,.ds-upload-cancel,.ds-upload-submit{animation:none!important;transition:none!important;scroll-behavior:auto!important}}.ds-upload-heading h2{line-height:1.5;overflow-wrap:anywhere}@media(max-width:760px){.ds-upload .ds-upload-cancel,.ds-upload .ds-upload-submit{min-height:38px}}.ds-upload-close{transition:background-color 160ms var(--ease,cubic-bezier(.16,1,.3,1)),border-color 160ms var(--ease,cubic-bezier(.16,1,.3,1)),box-shadow 160ms var(--ease,cubic-bezier(.16,1,.3,1)),transform 120ms var(--ease,cubic-bezier(.16,1,.3,1))}.ds-upload-close:active:not(:disabled){transform:translateY(1px) scale(.98)}.ds-upload-close:disabled{cursor:not-allowed;opacity:.55}.ds-upload-cancel{transition:background-color 160ms var(--ease,cubic-bezier(.16,1,.3,1)),border-color 160ms var(--ease,cubic-bezier(.16,1,.3,1)),box-shadow 160ms var(--ease,cubic-bezier(.16,1,.3,1)),transform 120ms var(--ease,cubic-bezier(.16,1,.3,1))}.ds-upload-cancel:active:not(:disabled){transform:translateY(1px) scale(.98)}.ds-upload-cancel:disabled{cursor:not-allowed;opacity:.55}.ds-upload-submit{transition:background-color 160ms var(--ease,cubic-bezier(.16,1,.3,1)),border-color 160ms var(--ease,cubic-bezier(.16,1,.3,1)),box-shadow 160ms var(--ease,cubic-bezier(.16,1,.3,1)),transform 120ms var(--ease,cubic-bezier(.16,1,.3,1))}.ds-upload-submit:active:not(:disabled){transform:translateY(1px) scale(.98)}.ds-upload-submit:disabled{cursor:not-allowed;opacity:.55}@media(prefers-reduced-motion:reduce){.ds-upload-close,.ds-upload-cancel,.ds-upload-submit{animation:none!important;transition:none!important;scroll-behavior:auto!important}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "清晰的文件工作台",
+    "overview": "界面以低饱和蓝灰、浅色内容面板和紧凑数据行建立秩序。文件名称、状态和允许执行的动作始终比装饰更醒目。系统无衬线字体承担界面文字，等宽字体承担标识与数值；细分隔线与浅色选中态使高密度信息仍可逐行扫描。\n\n本文件记录已实现的 React 管理台，视觉方向承接用户批准的 HTML/CSS 原型，并包含用户要求的适度切换与点击反馈。精确值和交互以当前 React 源码为准；桌面、移动端及代表性状态已有本地浏览器检查和截图证据。用户批准的是原型，正式 React 的用户手工验收、真实 D1 与 Provider 验收仍不在这些证据的证明范围内。",
+    "keyCharacteristics": [
+      "蓝灰导航、白色工作区和单一蓝色主动作。",
+      "文件列表承担浏览任务，详情面板解释选中记录和生命周期。",
+      "状态同时使用文字与颜色，非 ready 文件不能通过外观暗示可下载。",
+      "细边界、小圆角和克制的遮罩层级。",
+      "交互反馈短促，减少动态效果偏好具有优先权。"
+    ],
+    "rules": [
+      {
+        "name": "The State Truth Rule.",
+        "body": "状态色必须与状态文字、生命周期说明和动作可用性一致。pending 本身不等于中断；上传请求进度与待确认记录分别表达，过期 Key 不显示绿色可用状态。",
+        "section": "colors"
+      },
+      {
+        "name": "The Identifier Rule.",
+        "body": "标识和数值可以等宽，中文说明保持系统无衬线。长文件名在列表中省略，在详情中提供可换行的完整文本。",
+        "section": "typography"
+      },
+      {
+        "name": "The Quiet Surface Rule.",
+        "body": "常驻表格与详情依靠背景和分隔线形成层级；明显阴影留给覆盖当前工作区的临时界面。",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** 保留蓝灰导航、浅色工作区和蓝色主动作的层级。",
+      "**Do** 让文件名称、状态、可执行动作和完整详情在各视口保持可获得。",
+      "**Do** 同步状态文字、状态色、警告与动作可用性，区分上传请求进度、待确认记录与后端错误。",
+      "**Do** 为键盘焦点提供可见轮廓，并保留减少动态效果偏好。",
+      "**Do** 保留移动导航焦点约束、关闭后的焦点恢复，以及空结果的一键清除筛选。",
+      "**Do** 以当前 React 源码和截图核对新增界面，保持用户批准原型的视觉方向。"
+    ],
+    "donts": [
+      "**Don't** 将文件表格替换为无依据的卡片总览或营销区块。",
+      "**Don't** 仅依据 pending 状态展示“上传已中断”，或让不可用文件看起来可下载。",
+      "**Don't** 把独立的文件类型图标配色当成状态成功信号。",
+      "**Don't** 把过期、禁用或撤销的 Key 显示为绿色可用状态。",
+      "**Don't** 隐藏 mock 边界，或将本地浏览器检查与定向复核当成真实服务或正式用户验收。",
+      "**Don't** 为每个常驻区域增加大阴影、装饰性渐变或独立浮层。"
+    ]
+  }
+}

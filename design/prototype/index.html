@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#edf2f8" />
+    <link rel="icon" href="data:," />
+    <title>FluxVault · 管理台原型</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a href="#workspace" class="skip-link">跳到工作区</a>
+    <div class="app-shell">
+      <aside class="sidebar" id="sidebar" aria-label="主导航">
+        <a class="brand" href="#files"
+          ><span class="brand-mark"><i data-lucide="layers-2"></i></span
+          >FluxVault</a
+        >
+        <div class="workspace-label">
+          <span class="workspace-avatar">F</span
+          ><span>默认工作空间<small>管理员控制台</small></span
+          ><i data-lucide="chevrons-up-down"></i>
+        </div>
+        <nav>
+          <a href="#files" data-page="files" class="nav-item active"
+            ><i data-lucide="files"></i>文件<span class="nav-count">8</span></a
+          >
+          <a href="#instances" data-page="instances" class="nav-item"
+            ><i data-lucide="database"></i>存储实例</a
+          >
+          <a href="#keys" data-page="keys" class="nav-item"
+            ><i data-lucide="key-round"></i>API Key</a
+          >
+          <div class="nav-divider"></div>
+          <a href="#settings" data-page="settings" class="nav-item"
+            ><i data-lucide="settings-2"></i>系统设置</a
+          >
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="local-state">
+            <span class="status-dot"></span>本地演示环境<small
+              >所有数据仅用于原型预览</small
+            >
+          </div>
+          <div class="profile">
+            <span class="avatar">A</span
+            ><span>Administrator<small>系统管理员</small></span
+            ><span class="version">V1</span>
+          </div>
+        </div>
+      </aside>
+      <div class="main-shell">
+        <header class="topbar">
+          <button
+            class="icon-button mobile-menu"
+            id="menu-toggle"
+            aria-label="打开导航"
+            aria-expanded="false"
+          >
+            <i data-lucide="menu"></i>
+          </button>
+          <div class="breadcrumb">
+            工作空间<i data-lucide="chevron-right"></i
+            ><span id="breadcrumb-current">文件</span>
+          </div>
+          <span class="prototype-label"
+            ><i data-lucide="flask-conical"></i>交互原型</span
+          >
+        </header>
+        <main id="workspace" tabindex="-1">
+          <div class="page-heading">
+            <div>
+              <h1 id="page-title">文件</h1>
+              <p id="page-description">一个文件入口，连接你的所有存储。</p>
+            </div>
+            <button class="button primary" id="primary-action">
+              <i data-lucide="upload"></i><span>上传文件</span>
+            </button>
+          </div>
+          <div class="demo-notice">
+            <i data-lucide="info"></i
+            ><span>当前展示模拟数据，尚未连接真实存储服务。</span
+            ><span class="notice-tag">MOCK</span>
+          </div>
+          <section id="files-view" class="page-view">
+            <div class="file-tabs" role="group" aria-label="文件状态筛选">
+              <button data-status="all" class="file-tab selected">
+                全部文件<span>8</span></button
+              ><button data-status="attention" class="file-tab">
+                需要处理<span class="attention-count">2</span>
+              </button>
+            </div>
+            <div class="toolbar">
+              <label class="search-field"
+                ><i data-lucide="search"></i
+                ><input
+                  id="search"
+                  placeholder="搜索文件名称…"
+                  aria-label="搜索文件名称"
+                /><kbd>/</kbd></label
+              ><select id="provider-filter" aria-label="按存储源筛选">
+                <option value="all">全部存储源</option>
+                <option value="s3">S3 兼容</option>
+                <option value="telegram">Telegram</option>
+                <option value="github">GitHub Releases</option></select
+              ><select id="visibility-filter" aria-label="按可见性筛选">
+                <option value="all">全部可见性</option>
+                <option value="private">私有</option>
+                <option value="public">公开</option></select
+              ><button id="refresh" class="icon-button" aria-label="刷新列表">
+                <i data-lucide="refresh-cw"></i>
+              </button>
+            </div>
+            <div class="file-workspace">
+              <div class="file-list">
+                <div class="table-scroll">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>文件名称</th>
+                        <th>存储实例</th>
+                        <th>状态</th>
+                        <th>大小</th>
+                        <th class="visibility-column">可见性</th>
+                      </tr>
+                    </thead>
+                    <tbody id="files-body"></tbody>
+                  </table>
+                </div>
+                <div id="empty-state" class="empty-state" hidden>
+                  <i data-lucide="search-x"></i>
+                  <h2>没有匹配的文件</h2>
+                  <p>试试其他文件名，或清除筛选条件。</p>
+                  <button class="button secondary" id="reset-filters">
+                    清除筛选
+                  </button>
+                </div>
+                <div class="table-footer">
+                  <span id="results-count">显示 8 个文件</span
+                  ><span
+                    >按上传时间排序<i data-lucide="arrow-down-wide-narrow"></i
+                  ></span>
+                </div>
+              </div>
+              <aside
+                class="detail-panel"
+                id="desktop-detail"
+                aria-label="文件详情"
+              >
+                <div data-detail></div>
+              </aside>
+            </div>
+          </section>
+          <section id="instances-view" class="page-view" hidden>
+            <div class="section-intro">
+              <h2>存储实例</h2>
+              <p>一个存储源可以配置多个实例，文件始终绑定具体实例。</p>
+            </div>
+            <div class="table-scroll surface-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>实例名称</th>
+                    <th>存储源</th>
+                    <th>访问策略</th>
+                    <th>凭据引用</th>
+                    <th>状态</th>
+                  </tr>
+                </thead>
+                <tbody id="instances-body"></tbody>
+              </table>
+            </div>
+            <div class="inline-note">
+              <i data-lucide="shield-check"></i>凭据由部署环境提供，管理台只保存
+              Secret 名称。
+            </div>
+          </section>
+          <section id="keys-view" class="page-view" hidden>
+            <div class="section-intro">
+              <h2>调用方密钥</h2>
+              <p>
+                密钥只在创建时显示一次。文件归属跟随 Key ID，轮换不会改变归属。
+              </p>
+            </div>
+            <div class="table-scroll surface-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>名称</th>
+                    <th>密钥前缀</th>
+                    <th>权限</th>
+                    <th>有效期</th>
+                    <th>状态</th>
+                  </tr>
+                </thead>
+                <tbody id="keys-body"></tbody>
+              </table>
+            </div>
+            <div class="inline-note">
+              <i data-lucide="lock-keyhole"></i>API Key 用于 Public
+              API，不具备管理员权限。
+            </div>
+          </section>
+          <section id="settings-view" class="page-view settings" hidden>
+            <h2>运行环境</h2>
+            <dl class="settings-list">
+              <div>
+                <dt>当前模式</dt>
+                <dd><span class="badge neutral">Mock 演示</span></dd>
+              </div>
+              <div>
+                <dt>数据库</dt>
+                <dd>进程内模拟数据<small>尚未连接 Cloudflare D1</small></dd>
+              </div>
+              <div>
+                <dt>管理员登录有效期</dt>
+                <dd>
+                  12 小时<small>Token 仅保存在页面内存，刷新后重新登录</small>
+                </dd>
+              </div>
+              <div>
+                <dt>凭据管理</dt>
+                <dd>环境变量 / Cloudflare Secret</dd>
+              </div>
+              <div>
+                <dt>前端 API 地址</dt>
+                <dd>构建时注入<small>当前原型未连接 API</small></dd>
+              </div>
+            </dl>
+            <div class="inline-note">
+              <i data-lucide="info"></i
+              >运行配置由部署环境管理，此页面只展示配置状态。
+            </div>
+          </section>
+        </main>
+        <footer class="app-footer">
+          <span>FluxVault</span><span>统一文件管理 · 独立存储</span>
+        </footer>
+      </div>
+    </div>
+    <dialog id="detail-dialog" class="mobile-detail">
+      <div data-detail></div>
+    </dialog>
+    <dialog id="upload-dialog" class="form-dialog">
+      <form id="upload-form">
+        <div class="dialog-heading">
+          <div>
+            <h2>上传文件</h2>
+            <p>选择目标实例和文件可见性。</p>
+          </div>
+          <button
+            type="button"
+            data-close
+            class="icon-button"
+            aria-label="关闭上传窗口"
+          >
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+        <label class="dropzone" id="dropzone"
+          ><i data-lucide="cloud-upload"></i
+          ><strong id="selected-file-label">选择文件，或拖放到这里</strong
+          ><span>原型演示，不会上传到真实存储</span
+          ><input
+            type="file"
+            id="file-input"
+            required
+            aria-label="选择上传文件" /></label
+        ><label class="field-label" for="upload-instance">目标存储实例</label
+        ><select id="upload-instance" required>
+          <option value="s3-main">S3 · 对象存储</option>
+          <option value="tg-archive">Telegram · 文件归档</option>
+          <option value="gh-release">GitHub · 公开发行</option>
+        </select>
+        <fieldset class="visibility-options">
+          <legend>文件可见性</legend>
+          <label
+            ><input
+              type="radio"
+              name="visibility"
+              value="private"
+              checked /><span
+              ><strong>私有</strong
+              ><small>仅所属 API Key 和管理员可访问</small></span
+            ><i data-lucide="lock"></i></label
+          ><label
+            ><input type="radio" name="visibility" value="public" /><span
+              ><strong>公开</strong
+              ><small>任何持有文件地址的人均可下载</small></span
+            ><i data-lucide="globe"></i
+          ></label>
+        </fieldset>
+        <p id="upload-error" class="form-error" role="alert" hidden></p>
+        <div class="dialog-actions">
+          <button type="button" data-close class="button secondary">取消</button
+          ><button type="submit" class="button primary" id="upload-submit">
+            <i data-lucide="upload"></i>模拟上传
+          </button>
+        </div>
+      </form>
+    </dialog>
+    <dialog id="create-dialog" class="form-dialog">
+      <form id="create-form">
+        <div class="dialog-heading">
+          <div>
+            <h2 id="create-title">创建 API Key</h2>
+            <p id="create-description">为一个调用方创建独立身份。</p>
+          </div>
+          <button
+            type="button"
+            data-close
+            class="icon-button"
+            aria-label="关闭创建窗口"
+          >
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+        <label class="field-label" for="create-name">名称</label
+        ><input
+          id="create-name"
+          required
+          maxlength="60"
+          placeholder="例如：博客附件"
+        />
+        <div id="create-extra"></div>
+        <div id="created-secret" class="secret-result" hidden></div>
+        <div class="dialog-actions">
+          <button type="button" data-close class="button secondary">关闭</button
+          ><button id="create-submit" type="submit" class="button primary">
+            创建
+          </button>
+        </div>
+      </form>
+    </dialog>
+    <div class="toast" role="status" id="toast" hidden></div>
+    <script type="module" src="./prototype.js"></script>
+  </body>
+</html>

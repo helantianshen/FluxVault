@@ -1,0 +1,6 @@
+apps/web/src/api/schema.d.ts
+node_modules
+dist
+.local
+.playwright-cli
+.impeccable/review

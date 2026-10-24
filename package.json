@@ -1,0 +1,23 @@
+{
+  "name": "fluxvault-tooling",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "prototype": "vite design/prototype --host 127.0.0.1 --port 4173 --strictPort",
+    "contracts:lint": "redocly lint contracts/*.openapi.yaml",
+    "contracts:types": "node scripts/generate-types.mjs",
+    "format": "prettier --write \"apps/{web,worker-ts}/src/**/*.{ts,tsx,css}\" \"design/prototype/*.{html,css,js}\" \"scripts/**/*.mjs\"",
+    "format:check": "prettier --check \"apps/{web,worker-ts}/src/**/*.{ts,tsx,css}\" \"design/prototype/*.{html,css,js}\" \"scripts/**/*.mjs\""
+  },
+  "devDependencies": {
+    "@redocly/cli": "2.64.1",
+    "lucide": "1.59.0",
+    "openapi-typescript": "7.13.0",
+    "prettier": "3.9.10",
+    "vite": "8.3.4"
+  }
+}

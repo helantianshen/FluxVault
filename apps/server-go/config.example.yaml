@@ -1,0 +1,6 @@
+mode: mock
+public_address: 127.0.0.1:18080
+admin_address: 127.0.0.1:18081
+admin_username: admin
+allowed_origin: http://127.0.0.1:5173
+jwt_hours: 12
