@@ -15,7 +15,9 @@ import { FileIcon, FileBadge } from "./file-presentation";
 import { providerLabels } from "../instances/instance-presentation";
 import { formatBytes, formatTime, errorMessage } from "../../lib/utils";
 import type { Instance, VaultFile } from "../../api/types";
+import { publicFileLink } from "./public-link";
 import { useAuth } from "../auth/auth";
+/** 展示文件状态与操作，公开且就绪的文件提供可复制访问地址 */
 export function FileDetails({
   file,
   instance,
@@ -26,6 +28,7 @@ export function FileDetails({
   onDeleted: () => void;
 }) {
   const { client } = useAuth();
+  const publicLink = publicFileLink(file);
   const cache = useQueryClient();
   const [confirm, setConfirm] = useState(false);
   const remove = useMutation({
@@ -104,6 +107,42 @@ export function FileDetails({
           <dd>{file.owner_id === "system" ? "系统管理员" : file.owner_id}</dd>
         </div>
       </dl>
+      {file.visibility === "public" && file.state === "ready" && (
+        <div className="public-file-link">
+          {publicLink ? (
+            <>
+              <label className="field-label" htmlFor="public-file-link">
+                公开直链
+              </label>
+              <input
+                id="public-file-link"
+                readOnly
+                value={publicLink}
+                onFocus={(event) => event.currentTarget.select()}
+              />
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  navigator.clipboard
+                    .writeText(publicLink)
+                    .then(() => toast.success("公开直链已复制"))
+                    .catch(() =>
+                      toast.error("复制失败，请手动选中上方地址复制"),
+                    );
+                }}
+              >
+                <Copy />
+                复制直链
+              </Button>
+              <p className="detail-help">任何持有此链接的人均可下载文件。</p>
+            </>
+          ) : (
+            <p className="detail-help">
+              尚未配置有效的公开访问地址，暂时无法生成直链。
+            </p>
+          )}
+        </div>
+      )}
       <div className="lifecycle">
         <h3>文件状态</h3>
         <div className="timeline-item">

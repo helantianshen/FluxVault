@@ -10,22 +10,44 @@ export function fileRoutes(
   files: Files,
   required: MiddlewareHandler<HTTPEnv>,
   optional: MiddlewareHandler<HTTPEnv>,
+  publicCache = false,
 ) {
   const app = new Hono<HTTPEnv>();
   app.get("/files/:id/content", optional, async (c) => {
     const { mode } = query(c, downloadQuery);
-    const { file, body } = await files.download(
+    const { file, readBody } = await files.download(
       c.get("principal"),
       c.req.param("id"),
       mode,
     );
-    return new Response(body, {
+    // 每次先验证元数据，已删除或不可读的文件不能通过缓存继续访问
+    const cache =
+      publicCache &&
+      file.visibility === "public" &&
+      typeof caches !== "undefined"
+        ? caches.default
+        : undefined;
+    const key = new URL(c.req.url);
+    key.search = "";
+    key.searchParams.set("version", file.updatedAt);
+    const cached = await cache?.match(key.toString()).catch(() => undefined);
+    const response = new Response(cached ? cached.body : await readBody(), {
       headers: {
         "Content-Type": file.contentType,
         "Content-Disposition": `attachment; filename="download"; filename*=UTF-8''${encodeURIComponent(file.name).replaceAll("'", "%27")}`,
         "Content-Security-Policy": "sandbox",
+        "Cache-Control": "no-store",
       },
     });
+    if (cache && !cached) {
+      // 仅内部正文副本缓存一小时，对客户端仍禁止缓存以保留删除检查
+      const stored = response.clone();
+      stored.headers.set("Cache-Control", "public, max-age=3600");
+      c.executionCtx.waitUntil(
+        cache.put(key.toString(), stored).catch(() => {}),
+      );
+    }
+    return response;
   });
   app.get("/files", required, async (c) => {
     const f = query(c, fileFilterSchema);

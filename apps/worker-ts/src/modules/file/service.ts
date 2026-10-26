@@ -82,7 +82,7 @@ export class Files {
       throw notFound();
     return file;
   }
-  /** 验证可见性与状态后代理下载，拒绝未实现的直链模式 */
+  /** 验证下载权限和状态，正文按需读取以允许协议层复用缓存 */
   async download(p: Principal, id: string, mode: string) {
     const file = await this.fileRepo.findFile(id);
     downloadable(file, p);
@@ -91,11 +91,14 @@ export class Files {
         "direct_unavailable",
         "mock 存储不提供安全直链，请使用 auto 或 proxy",
       );
-    const instance = await this.instances.get(file.instanceID);
-    if (!file.locator) throw new Fault("storage_failure", "远端内容不可用");
+    const locator = file.locator;
+    if (!locator) throw new Fault("storage_failure", "远端内容不可用");
     return {
       file,
-      body: await this.objectStore.download(instance, file.locator),
+      readBody: async () => {
+        const instance = await this.instances.get(file.instanceID);
+        return this.objectStore.download(instance, locator);
+      },
     };
   }
   /** 先持久化 deleting，再按 Provider 语义删除正文和元数据 */

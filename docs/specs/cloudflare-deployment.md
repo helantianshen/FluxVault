@@ -35,7 +35,7 @@ npm --prefix apps/worker-ts run typecheck
 前端构建与上传：
 
 ```bash
-VITE_ADMIN_API_URL=https://vault-admin.gyvv.top npm --prefix apps/web run build
+VITE_ADMIN_API_URL=https://vault-admin.gyvv.top VITE_PUBLIC_API_URL=https://vault-api.gyvv.top npm --prefix apps/web run build
 (cd apps/web && ../worker-ts/node_modules/.bin/wrangler pages deploy dist --project-name fluxvault-console --branch main --commit-dirty=true)
 ```
 

@@ -419,6 +419,7 @@ export function FilesPage() {
           setOffset(0);
           setSelectedID(file.id);
           setDetailClosed(false);
+          if (mobile) setMobileOpen(true);
         }}
       />
     </>

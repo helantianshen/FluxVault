@@ -44,7 +44,7 @@ npm run dev
 本地 Worker：`http://127.0.0.1:8787`。仅本地 mock 将 Public/Admin 两组路由放在同一个入口。前端切换 Worker 时，先停止已运行的前端，再从项目根目录启动：
 
 ```bash
-VITE_ADMIN_API_URL=http://127.0.0.1:8787 npm --prefix apps/web run dev
+VITE_ADMIN_API_URL=http://127.0.0.1:8787 VITE_PUBLIC_API_URL=http://127.0.0.1:8787 npm --prefix apps/web run dev
 ```
 
 两端数据独立。部署时只选择一种后端；未来真实 Worker 接入需分离 Public/Admin 主机入口，不能直接发布当前本地 mock 配置。
@@ -122,3 +122,22 @@ mock 每个文件最大 8 MiB、对象总量最多 32 MiB，上传预留配额�
 D1 Repository 与持久化管理员首次初始化已实现，配置填写入口及迁移步骤见 [D1 接入说明](docs/specs/d1.md)。S3 直传与完成核验、Native 配置热更新以及真实部署脚本尚未实现。默认仍为 mock，D1 或 SDK 配置错误不会静默回落到 mock。JWT 无刷新 Token、无黑名单，退出只清除浏览器状态，已经签发的 Token 到期前仍有效。
 
 下一阶段需配置 D1 与相应 Provider Secrets，再分别验收流式读写、平台限制、限流/超时、远端删除失败补偿、并发条件更新与生产入口隔离。[工程 Spec](docs/specs/foundation.md) 保留了需要单独确认的 S3 直传契约取舍。
+
+### 公开文件直链
+
+管理台通过 `VITE_PUBLIC_API_URL` 指定 Public API 的 origin（不含路径），例如 `https://files.example.com`。Go 本地入口为 `http://127.0.0.1:18080`，Worker 本地入口为 `http://127.0.0.1:8787`。它和 `VITE_ADMIN_API_URL` 分别配置，不从管理域名推测。未配置或格式无效时，详情显示不可生成直链的提示。
+
+公开且 ready 的文件在详情中提供可复制地址：`{public-origin}/api/v1/files/{id}/content`。上传成功后选中该文件，移动端打开详情。API 上传响应保持原契约，调用方也可用响应的 `id` 组合上述地址；private 文件不提供匿名分享。
+
+TS Worker 的 D1 模式对 Public 下载入口启用 Cache API，公开文件正文内部缓存 1 小时；每次请求仍先检查身份、文件权限与 ready 状态。管理下载和私有下载不缓存，浏览器响应保持 `Cache-Control: no-store`。缓存失败退回正常代理下载，Telegram 凭据和远端地址不进入公开链接。mock 不启用此缓存。
+
+缓存按当前请求 origin、文件路径和元数据更新时间隔离，查询参数不创建额外正文副本。删除后新请求通过元数据检查被拒绝，不依赖各节点立即清除缓存；已经开始的下载和已保存副本无法撤回。不要在 Worker 前再配置绕过业务检查的整页缓存规则。文件仍按附件下载，本功能不增加图片内嵌展示、Range 或私有签名分享。
+
+本次定向缓存检查（使用 Wrangler 已安装的 esbuild，临时构建放到项目外）：
+
+```bash
+apps/worker-ts/node_modules/.bin/esbuild apps/worker-ts/scripts/check-public-download.ts --bundle --platform=node --format=esm --outfile=/tmp/fluxvault-check-public-download.mjs
+node /tmp/fluxvault-check-public-download.mjs
+```
+
+该检查使用内存仓储、模拟缓存验证真实路由与服务逻辑，不代表 Cloudflare 边缘缓存或 Telegram 线上验收。

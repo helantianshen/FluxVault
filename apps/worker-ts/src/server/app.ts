@@ -70,6 +70,9 @@ export function createApp(s: Services) {
     c.json({ status: "ok", mode: s.mode ?? "mock", backend: "worker-ts" }),
   );
   app.route("/admin/v1", adminRoutes(s, auth.admin));
-  app.route("/api/v1", fileRoutes(s.files, auth.key, auth.optionalKey));
+  app.route(
+    "/api/v1",
+    fileRoutes(s.files, auth.key, auth.optionalKey, s.mode === "d1"),
+  );
   return app;
 }

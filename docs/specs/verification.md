@@ -155,3 +155,12 @@ Web 构建仍保留原有主 chunk 约 538 kB 的体积提示，未调整阈值�
 - Playwright 使用隔离前端和本地 D1，实际查看桌面及 390×844 视口截图：设置页显示 D1 模式，文件页不显示 mock 清空提示；移动端无横向溢出，浏览器控制台无 error/warning。源码 UI 检测器未报告问题，但该扫描不包含渲染后的对比度规则。
 
 未新增仓库测试文件或依赖；临时验收工具位于项目外。以上不是远程 D1、真实 Provider、生产部署或远程 CI 验收，也不是完整业务回归。
+
+## 2026-10-26：公开直链与 Worker 正文缓存
+
+- 管理台按 `VITE_PUBLIC_API_URL` 和文件 ID 生成既有 Public 下载地址，仅 public/ready 文件可复制；移动端上传完成后打开详情。上传 JSON 契约和 Go 后端未修改。
+- Worker 在 D1 模式下仅缓存 Public 入口的公开正文；权限和状态校验发生在缓存查询之前。内部 TTL 为 1 小时，客户端保持 no-store，缓存异常回退代理；不增加图片预览、Range 或私有签名分享。
+- Worker/Web lint、typecheck、build（Worker 仅 dry-run），根 format:check、contracts:lint、contracts:types 和 git diff --check 通过。Web 构建仍有大于 500 kB chunk 的提示。
+- 定向检查源码为 `apps/worker-ts/scripts/check-public-download.ts`，执行命令见 README。使用真实路由/Service、内存仓储和模拟 Cache API，覆盖命中避免回源、无效凭据、private/admin 绕过缓存、deleting/deleted 拒绝旧缓存及缓存异常回退；不等同于边缘网络验收。
+- Playwright 在本机 Worker mock 上验证复制链接与匿名下载、移动端公开上传后展示直链及下载字节一致性。已查看 1440×1000 和 390×844 截图，未见该区域布局溢出；Impeccable 检测未报告问题。
+- 未部署、未提交或推送，未执行真实 Telegram/D1 联调、Cloudflare 多节点缓存验收。临时本地服务已停止。

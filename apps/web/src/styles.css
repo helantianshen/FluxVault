@@ -807,6 +807,25 @@ tbody tr.selected {
 .detail-actions svg {
   width: 13px;
 }
+.public-file-link {
+  margin: 20px 0;
+}
+.public-file-link input {
+  width: 100%;
+  min-width: 0;
+  padding: 8px 10px;
+  border: 1px solid #dbe2ed;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 12px;
+}
+.public-file-link .button {
+  width: 100%;
+  margin-top: 8px;
+}
+.public-file-link .detail-help {
+  margin-top: 8px;
+}
 .detail-warning {
   font-size: 12px;
   background: #fff5e6;

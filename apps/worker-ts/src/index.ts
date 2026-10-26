@@ -4,7 +4,7 @@ import { acceptsEntry } from "./server/entry";
 let runtime:
   Promise<{ app: Awaited<ReturnType<typeof createMock>>["app"] }> | undefined;
 export default {
-  async fetch(request: Request, env: Bindings) {
+  async fetch(request: Request, env: Bindings, ctx: ExecutionContext) {
     const host = new URL(request.url).hostname;
     if (
       env.RUNTIME_MODE === "mock" &&
@@ -41,7 +41,7 @@ export default {
         runtime = undefined;
         throw error;
       });
-      return (await runtime).app.fetch(request);
+      return (await runtime).app.fetch(request, undefined, ctx);
     } catch {
       return Response.json(
         {
