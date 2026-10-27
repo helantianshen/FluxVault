@@ -164,3 +164,11 @@ Web 构建仍保留原有主 chunk 约 538 kB 的体积提示，未调整阈值�
 - 定向检查源码为 `apps/worker-ts/scripts/check-public-download.ts`，执行命令见 README。使用真实路由/Service、内存仓储和模拟 Cache API，覆盖命中避免回源、无效凭据、private/admin 绕过缓存、deleting/deleted 拒绝旧缓存及缓存异常回退；不等同于边缘网络验收。
 - Playwright 在本机 Worker mock 上验证复制链接与匿名下载、移动端公开上传后展示直链及下载字节一致性。已查看 1440×1000 和 390×844 截图，未见该区域布局溢出；Impeccable 检测未报告问题。
 - 未部署、未提交或推送，未执行真实 Telegram/D1 联调、Cloudflare 多节点缓存验收。临时本地服务已停止。
+
+## 2026-10-27：管理台图片预览
+
+- 文件详情对 ready 的 JPEG、PNG、GIF、WebP、AVIF、BMP 自动请求鉴权正文并显示图片，公开和私有文件均沿用 Admin 鉴权。其他图片格式提示下载，下载接口与公开链接行为不变。
+- 预览提供加载、请求失败、图片解码失败和重试状态。详情卸载时取消请求、释放 Blob URL；移动抽屉关闭动画结束后执行卸载清理。
+- Web lint、typecheck、生产 build、根 format:check 和 git diff --check 通过；构建保留既有大 chunk 提示。Impeccable 检测未报告问题。
+- 本机 Worker mock + Playwright 验证：上传私有 PNG 后成功解码为 640×360、无公开链接、桌面与移动预览、模拟 502 后重试恢复、损坏正文解码错误，以及关闭详情后的 Blob URL 释放。实际查看 1440×1000 与 390×844 截图。
+- 本次仅本地开发和检查，未部署、未提交推送，未执行真实 Provider 联调。

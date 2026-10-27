@@ -15,6 +15,7 @@ import { FileIcon, FileBadge } from "./file-presentation";
 import { providerLabels } from "../instances/instance-presentation";
 import { formatBytes, formatTime, errorMessage } from "../../lib/utils";
 import type { Instance, VaultFile } from "../../api/types";
+import { ImagePreview } from "./image-preview";
 import { publicFileLink } from "./public-link";
 import { useAuth } from "../auth/auth";
 /** 展示文件状态与操作，公开且就绪的文件提供可复制访问地址 */
@@ -63,6 +64,7 @@ export function FileDetails({
         <h2>{file.name}</h2>
         <FileBadge file={file} />
       </div>
+      <ImagePreview file={file} />
       <dl className="detail-meta">
         <div>
           <dt>文件 ID</dt>

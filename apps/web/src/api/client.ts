@@ -60,7 +60,10 @@ export class ApiClient {
           }),
     });
   }
-  async download(id: string) {
-    return (await this.response(`/files/${id}/content?mode=proxy`)).blob();
+  /** 获取鉴权文件正文，预览关闭时可取消仍在进行的请求 */
+  async download(id: string, signal?: AbortSignal) {
+    return (
+      await this.response(`/files/${id}/content?mode=proxy`, { signal })
+    ).blob();
   }
 }
