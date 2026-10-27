@@ -48,6 +48,6 @@ func Persistent(c config.Config) (server.Routes, func() error, error) {
 	}
 	instanceService := storage.NewService(instances)
 	keyService := identity.NewService(keys)
-	handlers := server.Handlers{Mode: "d1", Auth: auth.NewHandler(admin), Files: file.NewHandler(file.NewService(files, instanceService, SDKObjects())), Instances: storage.NewHandler(instanceService), Keys: identity.NewHandler(keyService)}
+	handlers := server.Handlers{Mode: "d1", Auth: auth.NewHandler(admin), Files: file.NewHandler(file.NewService(files, instanceService, SDKObjects()), true), Instances: storage.NewHandler(instanceService), Keys: identity.NewHandler(keyService)}
 	return server.NewRoutes(handlers, middleware.NewAuth(admin, keyService), c.AllowedOrigin), func() error { return nil }, nil
 }

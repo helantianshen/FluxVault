@@ -33,6 +33,7 @@ func NewRoutes(h Handlers, authentication *middleware.Auth, allowedOrigin string
 	public.GET("/healthz", health(h.Mode))
 	api := public.Group("/api/v1")
 	api.GET("/files/:id/content", authentication.OptionalKey, h.Files.Download)
+	api.GET("/files/:id/preview", authentication.OptionalKey, h.Files.Preview)
 	api.Use(authentication.Key)
 	api.GET("/files", h.Files.List)
 	api.POST("/files", h.Files.Upload)
@@ -61,5 +62,6 @@ func fileRoutes(group *gin.RouterGroup, handler *file.Handler) {
 	group.POST("/files", handler.Upload)
 	group.GET("/files/:id", handler.Get)
 	group.GET("/files/:id/content", handler.Download)
+	group.GET("/files/:id/preview", handler.Preview)
 	group.DELETE("/files/:id", handler.Delete)
 }

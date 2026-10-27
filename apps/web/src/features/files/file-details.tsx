@@ -16,7 +16,6 @@ import { providerLabels } from "../instances/instance-presentation";
 import { formatBytes, formatTime, errorMessage } from "../../lib/utils";
 import type { Instance, VaultFile } from "../../api/types";
 import { ImagePreview } from "./image-preview";
-import { useSystem } from "../settings/queries";
 import { publicFileLink, publicImageLink } from "./public-link";
 import { useAuth } from "../auth/auth";
 /** 展示文件状态与操作，公开且就绪的文件提供可复制访问地址 */
@@ -31,9 +30,7 @@ export function FileDetails({
 }) {
   const { client } = useAuth();
   const publicLink = publicFileLink(file);
-  const system = useSystem();
-  const previewLink =
-    system.data?.backend === "worker-ts" ? publicImageLink(file) : null;
+  const previewLink = publicImageLink(file);
   const cache = useQueryClient();
   const [confirm, setConfirm] = useState(false);
   const remove = useMutation({

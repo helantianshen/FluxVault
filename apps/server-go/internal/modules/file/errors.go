@@ -10,6 +10,10 @@ var (
 	ErrFileName = fault.New("invalid_request", "文件名必须为 1 至 255 字节且不能包含路径或控制字符")
 	// ErrNotReady 表示文件尚不可下载
 	ErrNotReady = fault.New("conflict", "文件尚不可下载")
+	// ErrPreviewTooLarge 表示图片预览输入超过 8 MiB
+	ErrPreviewTooLarge = fault.New("payload_too_large", "图片预览输入上限为 8 MiB")
+	// ErrUnknownPreview 表示无法通过文件内容识别预览格式
+	ErrUnknownPreview = fault.New("preview_unavailable", "实际格式：未知（无法从文件内容识别），不支持预览，请下载查看")
 )
 
 var (

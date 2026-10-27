@@ -3,11 +3,13 @@
 package file
 
 import (
+	"bytes"
 	"io"
 	"mime"
 	"net/http"
 	"slices"
 	"strconv"
+	"strings"
 	"time"
 
 	"fluxvault/server-go/internal/httpx"
@@ -18,10 +20,19 @@ import (
 )
 
 // Handler 将本模块 HTTP 请求适配为 Service 操作
-type Handler struct{ service *Service }
+type Handler struct {
+	service *Service
+	cache   *bodyCache
+}
 
-// NewHandler 注入本模块业务服务，不向协议层暴露 Repository
-func NewHandler(service *Service) *Handler { return &Handler{service: service} }
+// NewHandler 注入文件服务，publicCache 仅在持久化组装中启用公开正文缓存
+func NewHandler(service *Service, publicCache bool) *Handler {
+	h := &Handler{service: service}
+	if publicCache {
+		h.cache = newBodyCache()
+	}
+	return h
+}
 
 // FileDTO 是本模块列表、详情及写入响应共用的安全视图
 type FileDTO struct {
@@ -159,21 +170,81 @@ func (h *Handler) Download(c *gin.Context) {
 		httpx.Error(c, ErrDownloadMode)
 		return
 	}
-	f, body, err := h.service.Download(c.Request.Context(), middleware.Principal(c), c.Param("id"), mode)
+	f, readBody, err := h.service.Download(c.Request.Context(), middleware.Principal(c), c.Param("id"), mode)
 	if err != nil {
 		httpx.Error(c, err)
 		return
+	}
+	key := h.cacheKey(c, f)
+	entry, cached := h.cache.get(key)
+	var body io.ReadCloser
+	if cached {
+		body = io.NopCloser(bytes.NewReader(entry.bytes))
+	} else {
+		body, err = readBody()
+		if err != nil {
+			httpx.Error(c, err)
+			return
+		}
 	}
 	defer body.Close()
 	c.Header("Content-Disposition", mime.FormatMediaType("attachment", map[string]string{"filename": f.Name}))
 	c.Header("Content-Security-Policy", "sandbox")
 	c.Header("Content-Type", f.ContentType)
 	c.Status(200)
-	written, err := io.CopyBuffer(c.Writer, body, make([]byte, 32<<10))
+	var stored bytes.Buffer
+	var source io.Reader = body
+	if key != "" && !cached && f.Size <= maxCachedBody {
+		// 仅保留最多 8 MiB 的正文副本，原下载仍流式转发
+		source = io.TeeReader(body, &boundedCapture{buffer: &stored})
+	}
+	written, err := io.CopyBuffer(c.Writer, source, make([]byte, 32<<10))
 	if err != nil || written != f.Size {
 		// 响应可能已经发送，必须中断传输，不能追加 JSON 或正常结束残缺正文
 		panic(http.ErrAbortHandler)
 	}
+	if !cached && int64(stored.Len()) == f.Size {
+		h.cache.put(key, stored.Bytes(), f.ContentType)
+	}
+}
+
+// Preview 按实际签名返回可内嵌图片，缓存命中前仍检查权限和就绪状态
+// GET /admin/v1/files/:id/preview
+// GET /api/v1/files/:id/preview
+func (h *Handler) Preview(c *gin.Context) {
+	f, readBody, err := h.service.Download(c.Request.Context(), middleware.Principal(c), c.Param("id"), "proxy")
+	if err != nil {
+		httpx.Error(c, err)
+		return
+	}
+	key := h.cacheKey(c, f)
+	entry, cached := h.cache.get(key)
+	if !cached {
+		body, err := readBody()
+		if err != nil {
+			httpx.Error(c, err)
+			return
+		}
+		defer body.Close()
+		entry.bytes, entry.contentType, err = h.service.Preview(body)
+		if err != nil {
+			httpx.Error(c, err)
+			return
+		}
+		h.cache.put(key, entry.bytes, entry.contentType)
+	}
+	c.Header("Content-Disposition", "inline")
+	c.Header("Content-Security-Policy", "default-src 'none'; sandbox")
+	c.Header("Cross-Origin-Resource-Policy", "cross-origin")
+	c.Data(http.StatusOK, entry.contentType, entry.bytes)
+}
+
+// cacheKey 仅为 Public 入口的公开正文生成版本键，不使用转发头拼接外部 URL
+func (h *Handler) cacheKey(c *gin.Context, f File) string {
+	if h.cache == nil || f.Visibility != "public" || !strings.HasPrefix(c.FullPath(), "/api/v1/") {
+		return ""
+	}
+	return c.Request.Host + c.Request.URL.Path + ":" + f.UpdatedAt.Format(time.RFC3339Nano)
 }
 
 // Delete 按当前身份删除文件，失败由业务服务保留恢复状态

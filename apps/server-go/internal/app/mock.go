@@ -51,7 +51,7 @@ func Mock(c config.Config) (server.Routes, func() error, error) {
 	}
 	handlers := server.Handlers{
 		Auth:      auth.NewHandler(admin),
-		Files:     file.NewHandler(fileService),
+		Files:     file.NewHandler(fileService, false),
 		Instances: storage.NewHandler(storageService),
 		Keys:      identity.NewHandler(identityService),
 	}

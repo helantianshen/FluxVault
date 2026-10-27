@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { RotateCw } from "lucide-react";
 import { Button } from "../../components/ui/button";
-import { useSystem } from "../settings/queries";
 import { useAuth } from "../auth/auth";
 import { errorMessage } from "../../lib/utils";
 import type { VaultFile } from "../../api/types";
@@ -38,8 +37,6 @@ function PreviewContent({
   onRetry: () => void;
 }) {
   const { client } = useAuth();
-  const system = useSystem();
-  const backend = system.data?.backend;
   const [url, setURL] = useState("");
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState("");
@@ -49,19 +46,11 @@ function PreviewContent({
   useEffect(() => {
     const controller = new AbortController();
     let objectURL = "";
-    if (!backend) return;
-    const request =
-      backend === "worker-ts"
-        ? client.preview(file.id, controller.signal)
-        : file.content_type.startsWith("image/")
-          ? client.download(file.id, controller.signal)
-          : Promise.reject(new Error("此格式暂不支持预览，请下载查看"));
-    request
+    client
+      .preview(file.id, controller.signal)
       .then((blob) => {
         if (controller.signal.aborted) return;
-        setFormat(
-          `${backend === "worker-ts" ? "实际格式" : "服务器声明格式"}：${blob.type || "未知"}`,
-        );
+        setFormat(`实际格式：${blob.type || "未知"}`);
         if (!imageTypes.has(blob.type))
           throw new Error("此格式暂不支持预览，请下载查看");
         objectURL = URL.createObjectURL(blob);
@@ -78,7 +67,7 @@ function PreviewContent({
       controller.abort();
       if (objectURL) URL.revokeObjectURL(objectURL);
     };
-  }, [client, file.id, file.content_type, backend]);
+  }, [client, file.id, file.content_type]);
   return (
     <section
       className="image-preview"

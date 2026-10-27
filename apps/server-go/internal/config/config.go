@@ -6,6 +6,7 @@ package config
 import (
 	"net"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/spf13/viper"
@@ -13,8 +14,8 @@ import (
 
 const (
 	keyMode          = "mode"           // 运行模式，mock 为演示，d1 为持久化
-	keyPublicAddress = "public_address" // 公开 API 的回环 IP 和端口
-	keyAdminAddress  = "admin_address"  // 管理 API 的回环 IP 和独立端口
+	keyPublicAddress = "public_address" // 公开 API 的监听 IP 和端口，mock 限回环
+	keyAdminAddress  = "admin_address"  // 管理 API 的监听 IP 和独立端口，mock 限回环
 	keyAdminUsername = "admin_username" // 管理员登录名
 	keyAllowedOrigin = "allowed_origin" // 允许跨域访问管理台的来源
 	keyJWTHours      = "jwt_hours"      // JWT 有效期，单位为小时，必须大于 0 且不超过 24
@@ -35,7 +36,7 @@ type Config struct {
 	D1APIToken    string
 }
 
-// Validate 校验运行模式、回环监听、凭据长度、令牌有效期及独立端口
+// Validate 校验监听 IP 与端口、凭据和有效期；仅 mock 限制回环地址
 func (c Config) Validate() error {
 	if c.Mode != "mock" && c.Mode != "d1" {
 		return ErrUnsupportedMode
@@ -44,9 +45,13 @@ func (c Config) Validate() error {
 		c.PublicAddress,
 		c.AdminAddress,
 	} {
-		host, _, err := net.SplitHostPort(address)
+		host, port, err := net.SplitHostPort(address)
 		ip := net.ParseIP(host)
-		if err != nil || ip == nil || !ip.IsLoopback() {
+		n, portErr := strconv.Atoi(port)
+		if err != nil || ip == nil || portErr != nil || n < 1 || n > 65535 {
+			return ErrListenAddress
+		}
+		if c.Mode == "mock" && !ip.IsLoopback() {
 			return ErrLoopbackAddress
 		}
 	}

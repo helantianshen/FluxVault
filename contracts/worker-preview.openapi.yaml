@@ -1,12 +1,17 @@
 openapi: 3.1.0
 info:
-  title: FluxVault Worker 图片预览扩展
+  title: FluxVault 图片预览扩展
   version: 0.1.0
-  description: TS Worker 专用扩展。Go Native 沿用原下载接口，不实现此扩展。预览不修改原文件。
+  description: Go Native 与 TS Worker 共用的图片预览扩展，预览不修改原文件。
   license:
     name: UNLICENSED
 servers:
+  - url: http://127.0.0.1:18080
+    description: Go Public 入口
+  - url: http://127.0.0.1:18081
+    description: Go Admin 入口
   - url: http://127.0.0.1:8787
+    description: Worker 本地入口
 security: []
 paths:
   /api/v1/files/{id}/preview:
@@ -56,7 +61,7 @@ components:
         type: string
   responses:
     Image:
-      description: 根据真实签名返回 image/png、image/jpeg、image/gif、image/webp、image/avif 或 image/bmp。非法格式或解码失败为 422，超限为 413。
+      description: 根据真实签名返回 image/png、image/jpeg、image/gif、image/webp、image/avif 或 image/bmp。不支持或未知的签名为 422，超限为 413；损坏位图的解码失败由浏览器报告。
       headers:
         Content-Disposition:
           schema:

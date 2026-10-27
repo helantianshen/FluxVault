@@ -1,5 +1,5 @@
 mode: d1 # 显式启用 D1 元数据和真实 Provider；日常演示继续使用 config.example.yaml
-public_address: 127.0.0.1:18080 # Public API 监听地址，当前仅支持本机回环
+public_address: 127.0.0.1:18080 # 网关回源地址；直接通过服务端 IP 访问时可填 0.0.0.0:18080 或 [::]:18080（字符串需引号）
 admin_address: 127.0.0.1:18081 # Admin API 独立监听地址
 allowed_origin: http://127.0.0.1:5173 # 管理台允许的浏览器来源
 admin_username: admin # 空数据库首次初始化时的管理员用户名

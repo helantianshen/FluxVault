@@ -96,7 +96,7 @@ AGENTS.md          项目规则、契约例外与验证入口
 
 ## 验证
 
-2026-10-24 按要求清理全部测试源码、测试辅助工具和浏览器测试产物。以下命令只进行静态检查与构建；历史验收记录不代表当前仓库仍提供可执行测试。
+2026-10-27 按要求清理全部测试源码、测试辅助工具和浏览器测试产物。以下命令只进行静态检查与构建；历史验收记录不代表当前仓库仍提供可执行测试。
 
 ```bash
 npm run contracts:lint
@@ -131,25 +131,22 @@ D1 Repository 与持久化管理员首次初始化已实现，配置填写入口
 
 TS Worker 的 D1 模式对 Public 下载入口启用 Cache API，公开文件正文内部缓存 1 小时；每次请求仍先检查身份、文件权限与 ready 状态。管理下载和私有下载不缓存，浏览器响应保持 `Cache-Control: no-store`。缓存失败退回正常代理下载，Telegram 凭据和远端地址不进入公开链接。mock 不启用此缓存。
 
-缓存按当前请求 origin、文件路径和元数据更新时间隔离，查询参数不创建额外正文副本。删除后新请求通过元数据检查被拒绝，不依赖各节点立即清除缓存；已经开始的下载和已保存副本无法撤回。不要在 Worker 前再配置绕过业务检查的整页缓存规则。文件仍按附件下载，本功能不增加图片内嵌展示、Range 或私有签名分享。
+Go 的 D1 模式提供同样的公开正文缓存边界，使用进程内一小时缓存，总正文上限 32 MiB、256 项；私有、管理和 mock 入口不缓存。附件仍流式转发，完整成功后才保存副本。
 
-本次定向缓存检查（使用 Wrangler 已安装的 esbuild，临时构建放到项目外）：
+缓存按当前请求主机（Worker 还区分协议）、文件路径和元数据更新时间隔离，查询参数不创建额外正文副本。删除后新请求通过元数据检查被拒绝，不依赖各节点立即清除缓存；已经开始的下载和已保存副本无法撤回。不要在网关前再配置绕过业务检查的整页缓存规则。文件仍按附件下载，不增加 Range 或私有签名分享。
 
-```bash
-apps/worker-ts/node_modules/.bin/esbuild apps/worker-ts/scripts/check-public-download.ts --bundle --platform=node --format=esm --outfile=/tmp/fluxvault-check-public-download.mjs
-node /tmp/fluxvault-check-public-download.mjs
-```
-
-该检查使用内存仓储、模拟缓存验证真实路由与服务逻辑，不代表 Cloudflare 边缘缓存或 Telegram 线上验收。
+历史定向检查验证了内存仓储和模拟缓存下的真实路由与服务逻辑，记录见 [验证记录](docs/specs/verification.md)；检查脚本已按要求清理，历史结果不代表 Cloudflare 边缘缓存或 Telegram 线上验收。
 
 ### 管理台图片预览
 
 就绪图片在文件详情中自动预览，支持 JPEG、PNG、GIF、WebP、AVIF、BMP。公开和私有图片都通过当前管理员会话鉴权获取正文；请求失败或图片损坏时可重试。关闭详情或切换图片后释放临时地址，其他格式仍可下载查看。此功能不改变公开直链的附件下载行为。
 
-### Worker 图片内嵌与格式识别
+### 图片内嵌与格式识别
 
-TS Worker 提供独立 `/api/v1/files/{id}/preview` 和管理员 `/admin/v1/files/{id}/preview`，契约见 `contracts/worker-preview.openapi.yaml`。原 content 下载入口继续返回原始字节。预览按文件头识别 PNG、JPEG、GIF、WebP、AVIF、BMP；HEIC/HEIF、TIFF、ICO、SVG、PDF、ZIP 可以识别但不提供预览。其他内容显示未知格式，不把后缀或上传 MIME 当成实际格式。损坏的受支持位图由浏览器报告解码失败，并显示实际格式；请求失败时只能显示上传声明格式，明确标注尚未验证。
+Go Native 与 TS Worker 均提供独立 `/api/v1/files/{id}/preview` 和管理员 `/admin/v1/files/{id}/preview`，共享契约保留在 `contracts/worker-preview.openapi.yaml`。原 content 下载入口继续返回原始字节。预览按文件头识别 PNG、JPEG、GIF、WebP、AVIF、BMP；HEIC/HEIF、TIFF、ICO、SVG、PDF、ZIP 可以识别但不提供预览。其他内容显示未知格式，不把后缀或上传 MIME 当成实际格式。损坏的受支持位图由浏览器报告解码失败，并显示实际格式；请求失败时只能显示上传声明格式，明确标注尚未验证。
 
-公开 ready 常见图片的详情提供“图片预览链接”，Markdown 使用 `![说明](预览链接)`；后缀伪装的非支持格式仍返回 422，私有文件不显示公开链接且匿名请求返回 404。预览最多读取 8 MiB，不转码、不新增依赖。Go Native 不实现此 Worker 扩展，管理台沿用下载预览并标明服务器声明格式。
+公开 ready 常见图片的详情提供“图片预览链接”，Markdown 使用 `![说明](预览链接)`；后缀伪装的非支持格式仍返回 422，私有文件不显示公开链接且匿名请求返回 404。两端预览最多读取 8 MiB，不转码、不新增依赖，管理台统一显示实际识别格式。
 
-公开预览缓存与原下载缓存分离，命中前仍检查文件权限和状态，客户端 no-store；不要配置绕过 Worker 的整页缓存。真实边缘缓存命中须另行验收。
+公开预览缓存与原下载缓存分离，命中前仍检查文件权限和状态，客户端 no-store；不要配置绕过后端的整页缓存。真实边缘缓存命中须另行验收。
+
+Go 支持通过服务端 IP 或域名中转访问；外部 HTTP 和 HTTPS 均可用，HTTPS 在 Nginx 等网关终止后通过 HTTP 回源。构建时将 API 地址设为外部 origin，HTTPS 管理台使用 HTTPS API。监听配置、双协议网关示例和验证入口见 [Go 部署说明](docs/specs/go-deployment.md)。

@@ -23,17 +23,18 @@ func Error(c *gin.Context, err error) {
 		e = known
 	}
 	statuses := map[string]int{
-		"invalid_request":    400,
-		"unauthorized":       401,
-		"forbidden":          403,
-		"not_found":          404,
-		"conflict":           409,
-		"payload_too_large":  413,
-		"rate_limited":       429,
-		"storage_failure":    502,
-		"metadata_failure":   503,
-		"capacity_exceeded":  503,
-		"direct_unavailable": 422,
+		"invalid_request":     400,
+		"unauthorized":        401,
+		"forbidden":           403,
+		"not_found":           404,
+		"conflict":            409,
+		"payload_too_large":   413,
+		"rate_limited":        429,
+		"storage_failure":     502,
+		"metadata_failure":    503,
+		"capacity_exceeded":   503,
+		"direct_unavailable":  422,
+		"preview_unavailable": 422,
 	}
 	status, ok := statuses[e.Code]
 	if !ok {

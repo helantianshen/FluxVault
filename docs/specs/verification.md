@@ -1,5 +1,7 @@
 > 2026-10-24：测试源码、测试脚本及浏览器产物已按用户要求清理。下文保留历史验证事实，旧路径和命令仅为历史记录，不是当前执行入口。
 
+2026-10-27 的 Go 同步任务完成定向测试后，测试源码、辅助脚本及浏览器产物已按用户后续要求清理；下文测试命令与路径均为历史证据。当前静态检查与构建入口见 README 及 [Go 部署说明](go-deployment.md)。
+
 # 首阶段本地验证记录
 
 日期：2026-10-18，Linux x86_64。本记录属于本地 mock 验证，不是 D1、真实存储、部署或远程 CI 验收。
@@ -182,3 +184,25 @@ Web 构建仍保留原有主 chunk 约 538 kB 的体积提示，未调整阈值�
 本轮未部署、提交或推送；没有写入真实 Provider 或远程 D1。Worker/Web lint、typecheck、build（Worker 仅 dry-run）、根 format:check、OpenAPI lint/类型生成及 git diff --check 通过，共享生成类型无变化。Web 保留既有大 chunk 提示。
 
 本机 HTTP 检查验证实际 HEIC 样本返回 422 且包含 image/heic，下载字节不变；PNG MIME 纠正、HEIF/TIFF/ICO/SVG/PDF/ZIP 和未知格式提示，以及权限、pending/deleted 和模拟 Cache API 检查通过。Playwright 验证 HEIC、损坏 PNG 和未知正文的失败提示，以及刷新后仍登录；已查看桌面与移动抽屉动画完成后的截图。Impeccable 有限源码扫描未报告问题。未进行线上 Provider、D1 或边缘缓存验收。
+
+## 2026-10-27：Worker 功能同步到 Go 与双协议中转
+
+以当前 Worker 行为为准，Go 提供独立 Public/Admin 图片预览，按实际签名识别格式、返回原始字节，并保留未知/不支持格式提示、8 MiB 上限及安全内嵌响应头。原附件下载继续中转，不向浏览器返回 Provider URL。管理台统一使用 preview 接口，Go 也显示公开图片预览链接。共享预览契约保留原文件名 `worker-preview.openapi.yaml`。
+
+Go 的 D1 组装为公开 Public 正文启用进程内一小时缓存，上限 32 MiB、256 项、单体 8 MiB；权限和状态检查在缓存之前。私有、管理和 mock 入口绕过缓存，下载与预览副本分离，更新时间使旧副本失效。D1 模式允许监听非回环 IP，默认监听与 mock 隔离不变。网关和前端外部 origin 设置见 [Go 部署说明](go-deployment.md) 与 [Nginx 示例](../../config/nginx.example.conf)。
+
+- Go `gofmt`、`go test -race -count=1 ./...`（9 个顶层测试及表驱动子场景）、`go vet ./...`、`go build ./...` 通过，无 race 报告。覆盖所有支持和可识别格式、短/损坏文件头、AVIF 兼容 brand 优先级、Unicode SVG、恰好 8 MiB/超限/上游读取失败、缓存容量/到期/并发、命中避免回源、版本失效、匿名/所有者/其他 Key/撤销/管理员鉴权、deleting/deleted 拒绝、管理/私有绕过，以及残缺附件中止且不缓存。
+- HTTP 集成使用真实 TCP 监听及本机 TLS 证书验证的客户端，覆盖 IP/域名 Host、HTTP/HTTPS 两种外部协议及 content/preview 路径。TLS 在测试网关终止，Go 回源明确为 HTTP；正文、CORS、no-store 与无 Location 检查通过。
+- Telegram 测试使用真实 Go SDK 与隔离 HTTP Transport，验证服务端依次发起 HTTPS `getFile` 和含 Token 的文件请求、返回原字节及错误脱敏；未发送真实平台请求。
+- 相同 `check-image-preview.mjs` 对本机 Go 双端口和 Worker workerd mock 各运行通过，覆盖签名、MIME 纠正、原字节、inline、安全状态和 SVG/其他格式拒绝。Worker `check-public-download.ts` 的模拟 Cache API 检查也通过。脚本支持 `MOCK_PUBLIC_URL`、`MOCK_ADMIN_URL`，测试记录执行后清理。
+- Worker/Web 的 lint、typecheck、build，根 format:check、contracts:lint、contracts:types 和 `git diff --check` 通过，生成类型没有变化。Worker 仅 dry-run；Web 保留既有大于 500 kB chunk 提示。
+- Playwright 使用独立 Go mock 与前端，验证 HTTP 管理预览、公开匿名访问、私有图片无公开链接、PDF 伪装格式提示及重试、octet-stream 声明下仍识别 PNG、刷新登录、桌面与移动详情。已查看 1440×1000、390×844 截图，抽屉等待动画结束后无横向溢出。HTTP 控制台仅有预期的 PDF 拒绝 422 和开发提示。
+- 另用临时 TLS 网关向 HTTP Go 回源，浏览器在 `https://localhost:19443` 验证公开链接保留 HTTPS、匿名图片实际解码和私有图片鉴权；没有 HTTP API 请求或混合内容错误。浏览器仅在该隔离会话容许本机自签证书，不代表生产证书验收。
+
+修改前源码备份为项目外 `/tmp/fluxvault-before-go-sync-20261027.tar.gz`。临时配置、TLS 网关、浏览器脚本和截图在 `/tmp/fluxvault-go-sync-check`，本次启动的服务和浏览器会话均已停止。未改真实连接配置、依赖或数据库迁移；未部署、提交或推送。没有远程 D1、真实 Telegram/GitHub/S3、Cloudflare 边缘缓存、生产域名/证书或 Nginx 配置加载验收；本机网关使用 Go ReverseProxy 验证同等 TLS 终止链路。
+
+## 2026-10-27：同步功能后的测试清理
+
+按用户后续要求清理全部自有测试文件：5 个 Go 测试源码、2 个 Worker 检查脚本、仓库内 `.playwright-cli` 浏览器快照及日志，以及本轮项目外临时测试目录 `/tmp/fluxvault-go-sync-check`。生产功能、运行示例、依赖和历史验证记录保留；README 与 Go 部署说明仅保留当前可用的静态检查入口。测试源码删除前保存在项目外归档 `/tmp/fluxvault-tests-before-cleanup-20261027.tar.gz`。
+
+清理后 Go gofmt/vet/build，Worker/Web lint/typecheck/build，根 format:check、OpenAPI lint/类型生成和 `git diff --check` 均通过。生成类型未变化，源码范围内已无测试文件、检查脚本及测试执行入口；未把这些静态及构建结果称为回归测试。Worker 仅 dry-run，Web 保留既有大 chunk 提示。本轮提交范围包含前述 Go 功能同步、协议与部署说明及本次测试清理，不包含本机真实配置或凭据，也未执行部署。

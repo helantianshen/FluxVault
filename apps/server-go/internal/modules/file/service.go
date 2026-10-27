@@ -124,8 +124,8 @@ func (s *Service) Get(ctx context.Context, p identity.Principal, id string) (Fil
 	return f, nil
 }
 
-// Download 验证文件状态和访问权限，解析实例后返回需调用方关闭的代理下载流
-func (s *Service) Download(ctx context.Context, p identity.Principal, id, mode string) (File, io.ReadCloser, error) {
+// Download 验证文件状态和权限，正文按需读取以允许协议层复用缓存；读取后的流由调用方关闭
+func (s *Service) Download(ctx context.Context, p identity.Principal, id, mode string) (File, func() (io.ReadCloser, error), error) {
 	f, err := s.fileRepo.FindFile(ctx, id)
 	if err != nil {
 		return f, nil, err
@@ -136,12 +136,16 @@ func (s *Service) Download(ctx context.Context, p identity.Principal, id, mode s
 	if mode == "direct" {
 		return f, nil, ErrDirectUnavailable
 	}
-	instance, err := s.instances.Get(ctx, f.InstanceID)
-	if err != nil {
-		return f, nil, err
+	if f.Locator.ObjectKey == "" {
+		return f, nil, fault.New("storage_failure", "远端内容不可用")
 	}
-	body, err := s.objectStore.Download(ctx, instance, f.Locator)
-	return f, body, err
+	return f, func() (io.ReadCloser, error) {
+		instance, err := s.instances.Get(ctx, f.InstanceID)
+		if err != nil {
+			return nil, err
+		}
+		return s.objectStore.Download(ctx, instance, f.Locator)
+	}, nil
 }
 
 // Delete 先保存 deleting，再按 Provider 语义清理远端和元数据，失败保留可重试记录

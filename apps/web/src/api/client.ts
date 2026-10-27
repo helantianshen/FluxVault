@@ -60,7 +60,7 @@ export class ApiClient {
           }),
     });
   }
-  /** 获取 Worker 图片预览正文，私有文件继续携带管理员凭据 */
+  /** 获取按实际内容识别的图片预览，私有文件继续携带管理员凭据 */
   async preview(id: string, signal?: AbortSignal) {
     return (
       await this.response(`/files/${encodeURIComponent(id)}/preview`, {
