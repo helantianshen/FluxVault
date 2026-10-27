@@ -17,6 +17,7 @@ const statuses: Record<string, ContentfulStatusCode> = {
   conflict: 409,
   payload_too_large: 413,
   direct_unavailable: 422,
+  preview_unavailable: 422,
   rate_limited: 429,
   storage_failure: 502,
   metadata_failure: 503,
@@ -72,7 +73,7 @@ export function createApp(s: Services) {
   app.route("/admin/v1", adminRoutes(s, auth.admin));
   app.route(
     "/api/v1",
-    fileRoutes(s.files, auth.key, auth.optionalKey, s.mode === "d1"),
+    fileRoutes(s.files, auth.key, auth.optionalKey, s.mode === "d1", s.preview),
   );
   return app;
 }

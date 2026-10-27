@@ -1,3 +1,4 @@
+import type { ImagePreviewer } from "./model";
 import type { Files } from "./service";
 import { Hono, type MiddlewareHandler } from "hono";
 import type { HTTPEnv } from "../../httpx/types";
@@ -11,6 +12,7 @@ export function fileRoutes(
   required: MiddlewareHandler<HTTPEnv>,
   optional: MiddlewareHandler<HTTPEnv>,
   publicCache = false,
+  preview?: ImagePreviewer,
 ) {
   const app = new Hono<HTTPEnv>();
   app.get("/files/:id/content", optional, async (c) => {
@@ -47,6 +49,49 @@ export function fileRoutes(
         cache.put(key.toString(), stored).catch(() => {}),
       );
     }
+    return response;
+  });
+  app.get("/files/:id/preview", optional, async (c) => {
+    const { file, readBody } = await files.download(
+      c.get("principal"),
+      c.req.param("id"),
+      "proxy",
+    );
+    if (!preview)
+      throw new Fault("preview_unavailable", "当前后端不支持图片预览");
+    const cache =
+      publicCache &&
+      file.visibility === "public" &&
+      typeof caches !== "undefined"
+        ? caches.default
+        : undefined;
+    const key = new URL(c.req.url);
+    key.search = "";
+    key.searchParams.set("version", `image-v1:${file.updatedAt}`);
+    const cached = await cache?.match(key.toString()).catch(() => undefined);
+    let response: Response;
+    if (cached) response = new Response(cached.body, cached);
+    else {
+      const image = await preview(await readBody());
+      response = new Response(new Uint8Array(image.bytes), {
+        headers: {
+          "Content-Type": image.type,
+          "Content-Disposition": "inline",
+          "Content-Security-Policy": "default-src 'none'; sandbox",
+          "X-Content-Type-Options": "nosniff",
+          "Cross-Origin-Resource-Policy": "cross-origin",
+          "Cache-Control": "no-store",
+        },
+      });
+      if (cache) {
+        const stored = response.clone();
+        stored.headers.set("Cache-Control", "public, max-age=3600");
+        c.executionCtx.waitUntil(
+          cache.put(key.toString(), stored).catch(() => {}),
+        );
+      }
+    }
+    response.headers.set("Cache-Control", "no-store");
     return response;
   });
   app.get("/files", required, async (c) => {

@@ -33,6 +33,13 @@ const app = createApp({
   keys: new Keys(repo),
   allowedOrigin: "https://console.example.com",
   mode: "d1",
+  preview: async (body) => {
+    await new Response(body).text();
+    return {
+      bytes: new TextEncoder().encode("preview-body"),
+      type: "image/png",
+    };
+  },
   auth: {
     verify: async () => {},
     login: async () => {
@@ -89,6 +96,22 @@ assert.equal(reads, 1);
 assert.equal(entries.size, 1);
 assert.equal((await request(path + "?mode=proxy")).body, "safe content");
 assert.equal(reads, 1, "cache hit must avoid object store");
+const previewPath = `/api/v1/files/${file.id}/preview`;
+const previewResult = await request(previewPath);
+assert.equal(previewResult.body, "preview-body");
+assert.equal(
+  previewResult.response.headers.get("content-disposition"),
+  "inline",
+);
+assert.equal(previewResult.response.headers.get("content-type"), "image/png");
+assert.equal(entries.size, 2, "preview and original cache must be isolated");
+const afterPreview = reads;
+assert.equal((await request(previewPath)).body, "preview-body");
+assert.equal(
+  reads,
+  afterPreview,
+  "preview hit must avoid conversion and origin",
+);
 assert.equal(
   (await request(path, { Authorization: "Bearer invalid" })).response.status,
   401,
@@ -113,6 +136,7 @@ await repo.beginDelete(file.id);
 assert.equal((await request(path)).response.status, 409);
 await repo.removeFile(file.id);
 assert.equal((await request(path)).response.status, 404);
+assert.equal((await request(previewPath)).response.status, 404);
 assert.equal(
   cacheReads,
   before,

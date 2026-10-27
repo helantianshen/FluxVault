@@ -28,7 +28,7 @@ export function LoginPage() {
         "POST",
         values,
       );
-      login(result.access_token);
+      login(result.access_token, result.expires_at);
     } catch (error) {
       setError(errorMessage(error));
       setShake((count) => count + 1);
@@ -103,7 +103,7 @@ export function LoginPage() {
           </Button>
         </form>
         <p className="login-note">
-          登录有效期 12 小时。刷新页面后需要重新登录。
+          登录有效期 12 小时。当前标签页刷新后保持登录，退出时清除会话。
         </p>
       </motion.main>
       <motion.footer

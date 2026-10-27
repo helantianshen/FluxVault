@@ -60,6 +60,14 @@ export class ApiClient {
           }),
     });
   }
+  /** 获取 Worker 图片预览正文，私有文件继续携带管理员凭据 */
+  async preview(id: string, signal?: AbortSignal) {
+    return (
+      await this.response(`/files/${encodeURIComponent(id)}/preview`, {
+        signal,
+      })
+    ).blob();
+  }
   /** 获取鉴权文件正文，预览关闭时可取消仍在进行的请求 */
   async download(id: string, signal?: AbortSignal) {
     return (

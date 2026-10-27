@@ -38,3 +38,8 @@ export interface Upload {
   contentType: string;
   body: ReadableStream<Uint8Array>;
 }
+
+/** 图片转换端口，输出仅包含已识别且支持预览的位图 */
+export type ImagePreviewer = (
+  body: ReadableStream<Uint8Array>,
+) => Promise<{ bytes: Uint8Array; type: string }>;

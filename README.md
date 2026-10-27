@@ -31,7 +31,7 @@ Public API：`http://127.0.0.1:18080`；Admin API：`http://127.0.0.1:18081`。`
 npm --prefix apps/web run dev
 ```
 
-打开 <http://127.0.0.1:5173>，用户名 `admin`，密码为上面设置的值。Token 仅保存在页面内存；刷新页面后重新登录。开发期间的整页热更新也会清除登录状态。
+打开 <http://127.0.0.1:5173>，用户名 `admin`，密码为上面设置的值。Token 保存在当前标签页的 sessionStorage 中，刷新后恢复未过期会话；退出、过期或 API 返回 401 时清除。浏览器禁止存储时退回内存登录。
 
 ### TypeScript Worker
 
@@ -145,3 +145,11 @@ node /tmp/fluxvault-check-public-download.mjs
 ### 管理台图片预览
 
 就绪图片在文件详情中自动预览，支持 JPEG、PNG、GIF、WebP、AVIF、BMP。公开和私有图片都通过当前管理员会话鉴权获取正文；请求失败或图片损坏时可重试。关闭详情或切换图片后释放临时地址，其他格式仍可下载查看。此功能不改变公开直链的附件下载行为。
+
+### Worker 图片内嵌与格式识别
+
+TS Worker 提供独立 `/api/v1/files/{id}/preview` 和管理员 `/admin/v1/files/{id}/preview`，契约见 `contracts/worker-preview.openapi.yaml`。原 content 下载入口继续返回原始字节。预览按文件头识别 PNG、JPEG、GIF、WebP、AVIF、BMP；HEIC/HEIF、TIFF、ICO、SVG、PDF、ZIP 可以识别但不提供预览。其他内容显示未知格式，不把后缀或上传 MIME 当成实际格式。损坏的受支持位图由浏览器报告解码失败，并显示实际格式；请求失败时只能显示上传声明格式，明确标注尚未验证。
+
+公开 ready 常见图片的详情提供“图片预览链接”，Markdown 使用 `![说明](预览链接)`；后缀伪装的非支持格式仍返回 422，私有文件不显示公开链接且匿名请求返回 404。预览最多读取 8 MiB，不转码、不新增依赖。Go Native 不实现此 Worker 扩展，管理台沿用下载预览并标明服务器声明格式。
+
+公开预览缓存与原下载缓存分离，命中前仍检查文件权限和状态，客户端 no-store；不要配置绕过 Worker 的整页缓存。真实边缘缓存命中须另行验收。

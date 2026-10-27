@@ -26,3 +26,21 @@ export function publicFileLink(file: VaultFile): string | null {
     return null;
   }
 }
+
+/** 公开图片使用独立预览入口，可直接嵌入 Markdown 或 HTML 图片 */
+export function publicImageLink(file: VaultFile): string | null {
+  const link = publicFileLink(file);
+  if (
+    !link ||
+    ![
+      "image/jpeg",
+      "image/png",
+      "image/gif",
+      "image/webp",
+      "image/avif",
+      "image/bmp",
+    ].includes(file.content_type)
+  )
+    return null;
+  return link.replace(/\/content$/, "/preview");
+}

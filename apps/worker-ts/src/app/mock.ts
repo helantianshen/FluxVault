@@ -1,3 +1,4 @@
+import { imagePreview } from "../infra/images/preview";
 import { createMemoryStore } from "../infra/memory/store";
 import { MemoryObjects } from "../infra/memory/objects";
 import { AdminAuth } from "../modules/auth/service";
@@ -55,6 +56,7 @@ export async function createMock(env: Bindings) {
   );
   return {
     app: createApp({
+      preview: imagePreview,
       files,
       instances,
       keys: new Keys(repo),

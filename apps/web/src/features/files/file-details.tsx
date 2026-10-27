@@ -16,7 +16,8 @@ import { providerLabels } from "../instances/instance-presentation";
 import { formatBytes, formatTime, errorMessage } from "../../lib/utils";
 import type { Instance, VaultFile } from "../../api/types";
 import { ImagePreview } from "./image-preview";
-import { publicFileLink } from "./public-link";
+import { useSystem } from "../settings/queries";
+import { publicFileLink, publicImageLink } from "./public-link";
 import { useAuth } from "../auth/auth";
 /** 展示文件状态与操作，公开且就绪的文件提供可复制访问地址 */
 export function FileDetails({
@@ -30,6 +31,9 @@ export function FileDetails({
 }) {
   const { client } = useAuth();
   const publicLink = publicFileLink(file);
+  const system = useSystem();
+  const previewLink =
+    system.data?.backend === "worker-ts" ? publicImageLink(file) : null;
   const cache = useQueryClient();
   const [confirm, setConfirm] = useState(false);
   const remove = useMutation({
@@ -143,6 +147,32 @@ export function FileDetails({
               尚未配置有效的公开访问地址，暂时无法生成直链。
             </p>
           )}
+        </div>
+      )}
+      {previewLink && (
+        <div className="public-file-link">
+          <label className="field-label" htmlFor="public-image-link">
+            图片预览链接
+          </label>
+          <input
+            id="public-image-link"
+            readOnly
+            value={previewLink}
+            onFocus={(event) => event.currentTarget.select()}
+          />
+          <Button
+            variant="secondary"
+            onClick={() => {
+              navigator.clipboard
+                .writeText(previewLink)
+                .then(() => toast.success("图片预览链接已复制"))
+                .catch(() => toast.error("复制失败，请手动复制上方地址"));
+            }}
+          >
+            <Copy />
+            复制预览链接
+          </Button>
+          <p className="detail-help">可用于 Markdown：![图片说明](预览链接)</p>
         </div>
       )}
       <div className="lifecycle">

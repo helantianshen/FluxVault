@@ -9,7 +9,7 @@ import { fileRoutes } from "../modules/file/handler";
 export function adminRoutes(s: Services, auth: MiddlewareHandler<HTTPEnv>) {
   const app = new Hono<HTTPEnv>();
   app.route("/auth", authRoutes(s.auth));
-  app.route("/", fileRoutes(s.files, auth, auth));
+  app.route("/", fileRoutes(s.files, auth, auth, false, s.preview));
   // 管理员认证后返回实际运行模式，null 表示应用不限制存储总量
   app.get("/system", auth, (c) =>
     c.json({

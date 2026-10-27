@@ -55,7 +55,15 @@ export function UploadDialog({
         {
           method: "POST",
           body: file,
-          headers: { "Content-Type": file.type || "application/octet-stream" },
+          headers: {
+            "Content-Type":
+              file.type ||
+              (/\.heic$/i.test(file.name)
+                ? "image/heic"
+                : /\.heif$/i.test(file.name)
+                  ? "image/heif"
+                  : "application/octet-stream"),
+          },
         },
       );
     },

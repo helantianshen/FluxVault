@@ -1,3 +1,4 @@
+import { imagePreview } from "../infra/images/preview";
 import { hash } from "bcryptjs";
 import { Fault } from "../fault";
 import { createD1Store } from "../infra/d1/store";
@@ -40,6 +41,7 @@ export async function createPersistent(env: Bindings) {
   const instances = new Instances(repo);
   return {
     app: createApp({
+      preview: imagePreview,
       mode: "d1",
       files: new Files(repo, instances, createSDKObjects({ ...env })),
       instances,

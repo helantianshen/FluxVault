@@ -1,0 +1,77 @@
+openapi: 3.1.0
+info:
+  title: FluxVault Worker 图片预览扩展
+  version: 0.1.0
+  description: TS Worker 专用扩展。Go Native 沿用原下载接口，不实现此扩展。预览不修改原文件。
+  license:
+    name: UNLICENSED
+servers:
+  - url: http://127.0.0.1:8787
+security: []
+paths:
+  /api/v1/files/{id}/preview:
+    get:
+      operationId: publicPreviewImage
+      summary: 获取可内嵌图片正文
+      description: public 且 ready 的图片可匿名访问；private 需要所属 API Key 的 read scope，无权访问返回 404。显式无效凭据返回 401。按文件签名判断格式，不执行转码。HEIC/HEIF、TIFF、ICO、SVG、PDF、ZIP 返回 422 并在错误消息中标明识别的格式；无法识别则标明未知格式。最多读取 8 MiB。不支持 Range。每次访问校验元数据后才允许使用内部缓存，客户端响应 no-store。
+      security:
+        - {}
+        - ApiKey: []
+      parameters:
+        - $ref: '#/components/parameters/FileID'
+      responses:
+        '200':
+          $ref: '#/components/responses/Image'
+        default:
+          $ref: './public.openapi.yaml#/components/responses/Error'
+  /admin/v1/files/{id}/preview:
+    get:
+      operationId: adminPreviewImage
+      summary: 管理员预览图片
+      description: 管理员 JWT 鉴权，允许预览 public/private 的 ready 图片；格式与资源上限同 Public 入口。管理入口不缓存正文。
+      security:
+        - AdminJWT: []
+      parameters:
+        - $ref: '#/components/parameters/FileID'
+      responses:
+        '200':
+          $ref: '#/components/responses/Image'
+        default:
+          $ref: './admin.openapi.yaml#/components/responses/Error'
+components:
+  securitySchemes:
+    ApiKey:
+      type: http
+      scheme: bearer
+    AdminJWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    FileID:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    Image:
+      description: 根据真实签名返回 image/png、image/jpeg、image/gif、image/webp、image/avif 或 image/bmp。非法格式或解码失败为 422，超限为 413。
+      headers:
+        Content-Disposition:
+          schema:
+            type: string
+            const: inline
+        Cache-Control:
+          schema:
+            type: string
+            const: no-store
+        Cross-Origin-Resource-Policy:
+          schema:
+            type: string
+            const: cross-origin
+      content:
+        image/*:
+          schema:
+            type: string
+            format: binary

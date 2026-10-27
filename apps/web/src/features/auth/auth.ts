@@ -3,7 +3,7 @@ import type { ApiClient } from "../../api/client";
 interface Auth {
   token: string | null;
   client: ApiClient;
-  login: (token: string) => void;
+  login: (token: string, expiresAt: string) => void;
   logout: () => void;
 }
 export const Context = createContext<Auth | null>(null);
